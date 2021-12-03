@@ -1,0 +1,15 @@
+{% extends 'pearl/base.html' %}
+
+{% block content %}
+<div >
+    {% for post in new %}
+    <img src="{{ post.pearl.url }}">
+    <p>{{ post.text }}</p>
+    {% endfor %}
+</div>
+<div>
+<footer>
+    <b>PearlsMEDIA <br> with Love, Vecugo 2021</b>
+</footer>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'pearl/base.html'%}
+{% load static%}
+
+
+{% block content %}
+<div class="parent-block">
+    <div class="archive-container">
+        <div class="title">
+            <a href="{% url 'archive_list' %}"><h1>ARCHIVE</h1></a>
+        </div>
+        <div class="post-entry">
+        <h2 class="category-text">{{ post.category}}</h2>
+        <div class='post-entry-sub'> <img src = "{{ post.pearl.url }}" class=''> </div>
+        <p>{{ post.summary }}</p>
+    </div class='notice'>
+        <p class="info-p">Through meditations, the Word becomes our life. Meditate on your archived <br> Pearls as often as you remember.<br>
+        Pearls older than 14 days are automatically removed from archive.</p>
+        <p><b> This "{{post.category}}" pearl expires in {{days_left}} day(s) </b></p>
+    </div>
+   
+</div>
+{% endblock %}

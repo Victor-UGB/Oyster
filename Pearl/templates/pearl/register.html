@@ -1,0 +1,22 @@
+{% extends 'pearl/base.html' %}
+{% load static %}
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+
+
+<!-- Register -->
+<div class="forms-parent-container">
+    <h1 class="form_h1">SIGNUP HERE</h1>
+
+    <form action="" method="POST" class="pearl-forms">
+        {% csrf_token %}
+        {{ register_form|crispy }}
+        <button class="form-actions-one" type="submit">Register</button>
+    </form>
+    <p class="">If you already have an account, <a href="/login"><b>LOGIN</b></a> instead.</p>
+
+</div>
+    
+{% endblock %}
