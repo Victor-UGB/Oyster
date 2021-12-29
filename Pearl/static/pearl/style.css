@@ -168,6 +168,19 @@ h4{
     color: #707070;
 }
 
+.media_formats{
+    display: flex;
+    margin: 1em;
+}
+
+.clips{
+    margin: 1em;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: medium;
+    color: #383A48;
+}
+
 .parent-block{
     margin: 3.5rem 1rem 0rem 0rem;
     display: flex;
@@ -435,6 +448,20 @@ footer{
         max-width: 100%;
         position: relative;
     }
+
+    .media_formats{
+        display: flex;
+        margin: 0em;
+    }
+    
+    .clips{
+        margin: 1em;
+        text-decoration: none;
+        font-weight: 400;
+        font-size: x-large;
+        color: #383A48;
+    }
+
     .block-one{
         display: inline-block;
         margin-left: 0em;
