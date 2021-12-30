@@ -1,1 +1,1 @@
-web: gunicorn VECUGOINC-TEST-COPY.wsgi --log-file -
+web: gunicorn vecugoinc.wsgi --log-file -
