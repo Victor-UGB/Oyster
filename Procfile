@@ -1,0 +1,1 @@
+web: gunicorn VECUGOINC-TEST-COPY.wsgi --log-file -
