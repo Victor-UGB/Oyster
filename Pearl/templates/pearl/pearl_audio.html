@@ -1,0 +1,114 @@
+{% extends 'pearl/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+        <div class="parent-block">
+            <div class="block-one">
+                {% for post in newest_post %}
+                    {% if user.is_authenticated %}
+                <div class="title">
+                    <h2 >Pearl For Today</h2>
+                    <p>{{ post.created_date }}</p>
+                </div>
+
+
+                <div class="post-entry">
+                    
+                    <h2 class="category-text"><a href="{% url 'pearl_detail' post.pk %}" class="category-text">{{ post.pearl_category }}</a></h2>
+                    
+                    <div class="post-entry-sub">
+                        <audio controls src="{{ post.pearl_audio.url }}" alt="pearl_img">Your browser does not support the <code> audio </code> element.</audio>
+                        <div class="post-summary-div">
+                        <p class="post-summary-p">{{ post.pearl_summary }}</p>
+                        <address class="post-summary-address"><b>{{ post.pearl_scripture }}</b></address>
+                        </div>
+                    </div>
+                    <div class="input-div">
+                        <div>
+                        <a href="{% url 'archive_pearl' post.id %}" oncl><input type="submit" value="archive" class="post-entry-input"></a>
+                        </div>
+                        <div>
+                        <a href="{{ post.pearl_image.url }}" download="{{ post.pearl.url }}"><input type="submit" value="download" class="post-entry-input"></a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            <div class="second-child">
+                <h3 class="category-text">Yesterday</h3>
+                {% for post in previous_post %}
+                    <div class="previous-post">
+
+                        <div class= 'previous-post-container'>
+                            <div class='previous-pearl-image-container'><img src="{{ post.pearl.url }}" alt="yesterday_pearl_img" class="previous-post-image"></div>
+                            <div class="previous-post-summary-div"><h3 class="category-text"><a href="{% url 'pearl_detail' post.pk %}">{{ post.category }}</a></h3>
+                            <p class="previous-post-summary-p">{{ post.summary }}</p>
+                            <address class="previous-post-summary-address">{{ post.text }}</address>
+                            </div>
+                        </div>
+                        
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% else %}
+
+        <div class="parent-block">
+            <div class="block-one">
+                <div class="title">
+                <h2 >Pearl For Today</h2>
+                <p>{{ post.created_date }}</p>
+                </div>
+                <div class="post-entry">
+                    <h2 class="category-text"><a href="" class="category-text">{{ post.pearl_category }}</a></h2>
+                    <div class="post-entry-sub">
+                        <img src="{{ post.pearl_image.url }}" alt="pearl_img">
+                        <div class="post-summary-div">
+                        <p class="post-summary-p">Login or signup to access more features</p>
+                            <address class="post-summary-address"><b>{{ post.pearl_scripture }}</b></address>
+                        </div>
+                    </div>
+                    <div class="input-div">
+
+                        <a href="{{ post.pearl_image.url }}" download="{{ post.pearl_image.url }}"><input type="submit" value="download" class="post-entry-input"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="second-child">
+            <div >
+                {% for post in previous_post %}
+                <div class="previous-post">
+                    <h3 class="category-text">Yesterday</h3>
+                    <div>
+                        <img src="{{ post.pearl_image.url }}" alt="yesterday_pearl_img" class="previous-post-image">
+                        <div class="previous-post-summary-div"><h3 class="category-text"><a href="{% url 'pearl_detail' post.pk %}">{{ post.pearl_category }}</a></h3>
+                        </div>
+                    </div>
+                    <div class="post-summary-div">
+                    <p class="post-summary-p">Login or signup to access more features</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endfor %}
+
+        </div>
+        </div>
+        <div class="footer-div">
+        <footer>
+            <div>
+            <b class="footer-address">PearlsMEDIA with Love,</b>
+            </div>
+            <div>
+            <b>Vecugo 2021</b>
+            </div>
+        </footer>
+        </div>
+
+{% endblock %}
+<link rel="stylesheet" type="text/css" href="{% static 'pearl/style.css' %}">

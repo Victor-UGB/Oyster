@@ -6,12 +6,26 @@
 <div class="parent-block">
     <div class="archive-container">
         <div class="title">
-            <a href="{% url 'archive_list' %}"><h1>ARCHIVE</h1></a>
+            <h1>DETAILS</h1>
         </div>
+        
         <div class="post-entry">
         <h2 class="category-text">{{ post.category}}</h2>
-        <div class='post-entry-sub'> <img src = "{{ post.pearl.url }}" class=''> </div>
+        <div class='post-entry-sub'> 
+            <audio controls> <source src = "{{ post.pearl_audion.url }}" type='audio/mpeg' class=''>
+            Your Browser does not support the audion element
+            </audio>
+        </div>
+        <div class='post-entry-sub'> <img src = "{{ post.pearl_image.url }}" class=''> </div>
         <p>{{ post.summary }}</p>
+        <div class="input-div">
+            <div>
+            <a href="{% url 'archive_pearl' post.id %}" oncl><input type="submit" value="archive" class="post-entry-input"></a>
+            </div>
+            <div>
+            <a href="{{ post.pearl.url }}" download="{{ post.pearl.url }}"><input type="submit" value="download" class="post-entry-input"></a>
+            </div>
+        </div>
     </div class='notice'>
         <p class="info-p">Through meditations, the Word becomes our life. Meditate on your archived <br> Pearls as often as you remember.<br>
         Pearls older than 14 days are automatically removed from archive.</p>

@@ -7,35 +7,50 @@
         <div class="parent-block">
             <div class="block-one">
                 {% for post in newest_post %}
-                    {% if user.is_authenticated %}
+                    {% comment %} {% if user.is_authenticated %} {% endcomment %}
                 <div class="title">
-                    <h2 >Pearl For Today</h2>
+                    <h1 >Pearl For Today</h1>
                     <p>{{ post.created_date }}</p>
                 </div>
-
- 
                 <div class="post-entry">
                     
-                    <h2 class="category-text"><a href="{% url 'pearl_detail' post.pk %}" class="category-text">{{ post.category }}</a></h2>
                     
-                    <div class="post-entry-sub">
-                        <img src="{{ post.pearl.url }}" alt="pearl_img">
+                    <div class="navigation-bar" id='navigationBar'> 
+                        <div onclick='drawNavBar()' class='vl' id="navBarDrawer" style= "cursor:pointer;"></div>
+                        <button data-page="image"  onclick='toggleImagedisplay()' class= "tab-buttons" id="image-tab" style = 'background-color: whitesmoke; background-clip: content-box;' data-color = 'green'><h4>Image</h4></button>
+                        <button data-page="podcast"  onclick='togglePodcastdisplay()' class= "tab-buttons" id="podcast-tab" style = 'background-color: white;' data-color = 'gray'><h4>Podcast</h4></button>
+                        <button data-page="vidcast"  onclick='toggleVideodisplay()' class="tab-buttons" id="video-tab" style = 'background-color: white' data-color = 'gray'><h4>Video</h4></button>
+                    </div>
+                    <h2 class="category-text"><a href="{% url 'pearl_detail' post.pk %}" class="category-text">{{ post.pearl_category }}</a></h2>
+                    <div class='post-entry-sub' id='podcast' style = 'display:none;'> 
+                        <audio controls> <source src = "{{ post.pearl_audio.url }}" type='audio/mpeg' class=''>
+                        Your Browser does not support the audio element
+                        </audio>
+                    </div>
+                    <div class='post-entry-sub' id='vidcast' style= "display:none;">
+                        <video name='' controls width='80%' height='40%'>
+                            <source src="{{ post.pearl_video.url }}" type='video/mp4'>
+                        <video>
+                    </div>
+                    <div class="post-entry-sub" id='image'>
+                        <div class= 'image-container'style="display:flex;">
+                        <img src="{{ post.pearl_image.url }}" alt="pearl_img">
                         <div class="post-summary-div">
-                        <p class="post-summary-p">{{ post.summary }}</p>
-                        <address class="post-summary-address"><b>{{ post.text }}</b></address>
+                        <p class="post-summary-p">{{ post.pearl_summary }}</p>
+                        <address class="post-summary-address"><b>{{ post.pearl_scripture }}</b></address>
+                        </div>
                         </div>
                     </div>
                     <div class="input-div">
                         <div>
                         <a href="{% url 'archive_pearl' post.id %}" oncl><input type="submit" value="archive" class="post-entry-input"></a>
-                        {% include 'pearl/includes/messages.html' %}
                         </div>
                         <div>
-                        <a href="{{ post.pearl.url }}" download="{{ post.pearl.url }}"><input type="submit" value="download" class="post-entry-input"></a>
+                        <a href="{{ post.pearl_image.url }}" download="{{ post.pearl.url }}"><input type="submit" value="download" class="post-entry-input"></a>
                         </div>
                     </div>
                 </div>
-                </div>
+            </div>
 
             <div class="second-child">
                 <h3 class="category-text">Yesterday</h3>
@@ -43,11 +58,15 @@
                     <div class="previous-post">
 
                         <div class= 'previous-post-container'>
-                            <div class='previous-pearl-image-container'><img src="{{ post.pearl.url }}" alt="yesterday_pearl_img" class="previous-post-image"></div>
-                            <div class="previous-post-summary-div"><h3 class="category-text"><a href="{% url 'pearl_detail' post.pk %}">{{ post.category }}</a></h3>
-                            <p class="previous-post-summary-p">{{ post.summary }}</p>
-                            <address class="previous-post-summary-address">{{ post.text }}</address>
+                            
+                            <div style="margin: 0rem;">
+                                <img src="{{ post.pearl_image.url }}" alt="yesterday_pearl_img" class="previous-post-image">
+                                <div class="previous-post-summary-div"><h3 class="category-text"><a href="{% url 'pearl_detail' post.pk %}">{{ post.pearl_category }}</a></h3>
+                                    <p class="previous-post-summary-p">{{ post.pearl_summary }}</p>
+                                    <address class="previous-post-summary-address">{{ post.pearl_scripture }}</address>
+                                </div>
                             </div>
+                            
                         </div>
                         
                     </div>
@@ -55,7 +74,7 @@
             </div>
         </div>
 
-        {% else %}
+        {% comment %} {% else %}
 
         <div class="parent-block">
             <div class="block-one">
@@ -64,17 +83,17 @@
                 <p>{{ post.created_date }}</p>
                 </div>
                 <div class="post-entry">
-                    <h2 class="category-text"><a href="{% url 'pearl_detail' post.pk %}" class="category-text">{{ post.category }}</a></h2>
+                    <h2 class="category-text"><a href="" class="category-text">{{ post.pearl_category }}</a></h2>
                     <div class="post-entry-sub">
-                        <img src="{{ post.pearl.url }}" alt="pearl_img">
+                        <img src="{{ post.pearl_image.url }}" alt="pearl_img">
                         <div class="post-summary-div">
                         <p class="post-summary-p">Login or signup to access more features</p>
-                            <address class="post-summary-address"><b>{{ post.text }}</b></address>
+                            <address class="post-summary-address"><b>{{ post.pearl_scripture }}</b></address>
                         </div>
                     </div>
                     <div class="input-div">
 
-                        <a href="{{ post.pearl.url }}" download="{{ post.pearl.url }}"><input type="submit" value="download" class="post-entry-input"></a>
+                        <a href="{{ post.pearl_image.url }}" download="{{ post.pearl_image.url }}"><input type="submit" value="download" class="post-entry-input"></a>
                     </div>
                 </div>
             </div>
@@ -85,8 +104,8 @@
                 <div class="previous-post">
                     <h3 class="category-text">Yesterday</h3>
                     <div>
-                        <img src="{{ post.pearl.url }}" alt="yesterday_pearl_img" class="previous-post-image">
-                        <div class="previous-post-summary-div"><h3 class="category-text"><a href="{% url 'pearl_detail' post.pk %}">{{ post.category }}</a></h3>
+                        <img src="{{ post.pearl_image.url }}" alt="yesterday_pearl_img" class="previous-post-image">
+                        <div class="previous-post-summary-div"><h3 class="category-text"><a href="{% url 'pearl_detail' post.pk %}">{{ post.pearl_category }}</a></h3>
                         </div>
                     </div>
                     <div class="post-summary-div">
@@ -95,7 +114,7 @@
                 </div>
                 {% endfor %}
             </div>
-            {% endif %}
+            {% endif %} {% endcomment %}
             {% endfor %}
 
         </div>
@@ -106,7 +125,7 @@
             <b class="footer-address">PearlsMEDIA with Love,</b>
             </div>
             <div>
-            <b>Vecugo 2021</b>
+            <b style= "font-size: small; font-weight:300;">  Vecugo 2021</b>
             </div>
         </footer>
         </div>
