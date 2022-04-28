@@ -1,6 +1,18 @@
+html{
+    scroll-behavior: smooth;
+}
+
 li a{
     color: #e8e;
     font-size: large;
+}
+
+.icon {
+    position: relative;
+    color: #383A48;
+    font-size: large;
+    top: 1%;
+    left: 5%;
 }
 
 body{
@@ -18,9 +30,9 @@ img{
     width: 20rem;
 }
 
-.previous-post-image{
+.previous-post-image {
+    width: 15em;
     height: auto;
-    width: 100%;
 }
 
 header{
@@ -39,6 +51,11 @@ h1{
     margin-top: 2em;
 }
 
+.header-border{
+    border: whitesmoke solid .5px;
+    width: 30%;
+}
+
 header h1 a {
     color: #707070;
     text-decoration: none;
@@ -55,6 +72,42 @@ h3 a{
 
 h4{
     color: #707070;
+}
+
+#active{
+    background-color: #007527;
+}
+
+.navigation-bar{
+    display: block;
+    margin: auto;
+    
+}
+.tab-buttons{
+    color: white;
+    font-size: small;
+    border-color: none;
+    padding: 0px 22px;
+    box-shadow: none;
+    width:10rem;
+    border: lightgray solid 0px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-clip: content-box;
+    background-size: auto;
+}
+
+.tab-div{
+    display: flex;
+    flex-direction: column;
+}
+
+/* .tab-buttons:hover{
+    
+} */
+
+#inactive{
+    background-color: white;
 }
 
 .form_h1{
@@ -84,9 +137,15 @@ h4{
 .nav-left{
     margin:auto;
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     font-size: 10px;
 }
+
+
+#navbarText{
+    display: none;
+}
+
 
 .nav-right{
     padding-top: 0rem;
@@ -126,12 +185,46 @@ h4{
 }
 
 .title h2{
-    color: #707070;
+    color: rgb(212, 212, 212);
     font-weight: 500;
-    font-size: 20px;
+    font-size: 13vw;
+    text-shadow: 0 0 0.3vw #ddd;
+    text-transform: uppercase;
+    user-select: none;
     letter-spacing: 2px;
     margin-top: 2rem;
     margin-bottom: 0;
+}
+
+.title h2::before{
+    content: attr(title);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    color: #01fe87;
+    overflow: hidden;
+    animation: animate 6s linear infinite;
+    color: rgb(212, 212, 212);
+    font-weight: 500;
+    font-size: 13vw;
+    text-shadow: 0 0 0.3vw #ddd;
+    text-transform: uppercase;
+    user-select: none;
+    letter-spacing: 2px;
+    margin-top: 2rem;
+    margin-bottom: 0;
+}
+
+@keyframes animate {
+    0%, 10%, 100%{
+        width: 0;
+    }
+    70%, 90%{
+        width: 100%;
+    }
+    
 }
 
 .title h1{
@@ -146,8 +239,9 @@ h4{
 .title p{
     margin-top: 0;
     font-size: small;
-    font-weight: 500;
+    font-weight: 300;
     color: #474747;
+    margin-bottom: 2rem;
 }
 
 .title a{
@@ -164,8 +258,9 @@ h4{
 }
 
 .category-text{
-    letter-spacing: 2px;
-    color: #707070;
+    font-size: 20px;
+    color: rgb(212, 212, 212);
+    margin-top: 2rem;
 }
 
 .media_formats{
@@ -182,7 +277,7 @@ h4{
 }
 
 .parent-block{
-    margin: 3.5rem 1rem 0rem 0rem;
+    /* margin: 3.5rem 1rem 0rem 0rem; */
     display: flex;
     justify-content: space-between;
 }
@@ -204,8 +299,12 @@ h4{
 }
 
 .second-child{
-    width: 15%;
-    margin-right: 3em;
+    width: 35%;
+    margin-right: 0em;
+    margin-top: 10rem;
+    background-color: white;
+    border-radius: 20px 20px 20px 20px;
+    box-shadow: 0px 6px 1px 3px whitesmoke;
 }
 
 .post-entry{
@@ -215,6 +314,7 @@ h4{
     flex-direction: column;
     max-width: 100%;
     position: relative;
+    overflow: hidden;
 }
 
 .post-entry-sub{
@@ -224,6 +324,7 @@ h4{
     flex-direction: row;
     max-width: 100%;
     position: relative;
+    margin-top: 1rem;
 }
 
 .post-entry h2{
@@ -238,7 +339,8 @@ h4{
 
 .post-entry p{
     margin: 0;
-    font-weight: 400;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .post-entry h2 a:hover{
@@ -301,7 +403,7 @@ h4{
 
 .post-summary-address{
     padding: 1rem 0 0 1rem;
-    color: #383A48;
+    color: lightsteelblue;
     display: flex;
     text-align: center;
 }
@@ -311,6 +413,7 @@ h4{
     color: #383A48;
     font-size: small;
     text-align: center;
+    font-weight: 500;
 }
 
 .previous-post{
@@ -320,6 +423,7 @@ h4{
     flex-direction: column;
     max-width: 100%;
     position: relative;
+    padding-bottom: 2rem;
 }
 
 .controls{
@@ -354,7 +458,7 @@ h4{
 .forms-parent-container{
     width: 50%;
     margin: auto;
-    margin-top: 6em;
+    margin-top: 4em;
     text-align: center;
 }
 
@@ -382,6 +486,7 @@ h4{
 .form-actions{
     margin-top: 2em;
     margin-right: 0em;
+    font-size: small;
 }
 
 .form-actions-one{
@@ -408,13 +513,17 @@ h4{
 
 /* footer */
 footer{
-    margin-top: 3rem;
+    margin-top: 2rem;
     display: flex;
     justify-content: space-between;
+
 }
 .footer-address{
     margin-top: 4rem;
     color: #383A48;
+    font-size: small;
+    font-weight: 400;
+    margin-left: 1rem;
 }
 
 .topnav {
@@ -470,9 +579,17 @@ footer{
 
     .second-child {
         margin-top: 4rem;
-        width: 80%;
+        width: 95%;
         margin: auto;
-        margin-top: 4rem;
+        margin-top: 4rem; 
+        text-align: center;
+
+
+        /* position: absolute;
+        top: 100%;
+        left: 30%;
+        margin-top: -50px;
+         */
     }
     
     .post-summary-p {
@@ -487,7 +604,6 @@ footer{
 
     .post-summary-address {
         padding: .2rem 0 0 .2rem;
-        color: #383A48;
         text-align: center;
         display: inline;
     }
@@ -538,11 +654,11 @@ footer{
       
 
     .icon{
-        position: fixed;
+        position: relative;
         color: #383A48;
         font-size: large;
-        top: 5%;
-        left: 15%;
+        top: 1%;
+        left: 5%;
     }
 
     #navbarText{
@@ -576,7 +692,6 @@ footer{
     }
 
     .previous-post-container{
-        width: 70%;
         margin: auto; 
     }
 
@@ -620,5 +735,37 @@ footer{
         margin-top: 2rem;
         display: grid;
         grid-template-columns: auto auto auto;
+    }
+    .navigation-bar{
+        display: flex;
+        flex-direction: column;
+        align-self: flex-end;
+        position: absolute;
+        z-index: 1;
+        top: 30%;
+        right: -10rem;
+    }
+
+    .nav-bar-container{
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        align-self: flex-end;
+    }
+
+    .title p{
+        margin-bottom: 2rem;
+    }
+
+    .vl{
+        border-left: 6px solid gainsboro;
+        border-radius: 30px;
+        height: 40px;
+        position: absolute;
+        margin-left: -16px;
+        top: 30%;
+    }
+    .image-container{
+        display: inline-block !important;
     }
 }

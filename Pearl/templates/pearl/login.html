@@ -5,14 +5,14 @@
 {% load crispy_forms_tags %}
 
 <div class="forms-parent-container">
-    <h1 class= "form_h1">LOGIN HERE</h1>
     <form action="" method="POST" class="pearl-forms">
         {% csrf_token %}
         {{ login_form|crispy }}
-        <button class="form-actions form-actions-one" type="submit">login</button>
+        {% include 'pearl/includes/messages.html' %}
+        <button class="form-actions form-actions-one" type="submit">Login</button>
         <div><a href="{% url 'password_reset' %}" class="form-actions">forgotten password?</a></div>
     </form>
-    <p>Don't have an account? <a href="/register"><b>CREATE AN ACCOUNT</b></a>.</p>
+    <p>Don't have an account? <a href="/register"><b>REGISTER</b></a>.</p>
 </div>
 
 {% endblock %}

@@ -6,6 +6,11 @@ const pushButton = document.querySelector('.js-push-btn');
 
 let isSubscribed = false;
 let swRegistration = null;
+const buttonState = [document.querySelectorAll('.nav-bar-item')];
+let buttonStateList = [];
+function showButtonState(){
+  console.log(buttonState);
+}
 
 function burgerMenu() {
     var x = document.getElementById('navbarText');
@@ -16,6 +21,178 @@ function burgerMenu() {
     }
 }
 
+// function showSection(page){
+//   document.querySelectorAll("div.post-entry-sub").forEach ("" () => {
+//     '.tab-button'.style.display = "none";
+//   })
+// }
+
+// function showSection(page){
+//   x = document.querySelectorAll("div.post-entry-sub")
+//   for( i in x){
+//     i.style.display = 'none';
+//   }
+
+//   document.querySelector('#${page}').style.display = 'block';
+// };
+
+// document.addEventListener('DOMContentLoaded', function(){
+//   document.querySelectorAll('button').forEach(button =>{
+//     button.onclick = function(){
+//       showSection(this.dataset.page);
+//     }
+//   });
+// });
+
+// for(var x of buttonState){ console.log(x);}
+
+
+// document.addEventListener('DOMContentLoaded', ()=>{
+//   document.querySelectorAll('button').forEach(button =>{
+//     button.onclick = function(){
+//       document.querySelector('#image-tab').style.color = button.dataset.color;
+//     }
+//   })
+// });
+
+// function returnTab(){
+//   let y = document.getElementById('navigationBar');
+//   y.style.right = '-9rem';
+//   console.log('Hello World');
+// }
+
+
+// $(window).scroll(function(){
+//   var scrollVal = $(this).scrollTop();
+
+//   $(".block-one").css("transform","translate(0px,-"+scrollVal/2+'%)');
+//   $(".second-child").css("transform","translate(-20px,-"+scrollVal/2+'%)');
+// });
+
+function drawNavbar(){
+  let x = document.getElementById('navBarDrawer');
+  let y = document.getElementById('navigationBar');
+  let z = document.getElementById('tabDiv');
+  x.addEventListener('click', function(){
+    if (y.style.right == '1rem'){
+      y.style.right = '-10rem';
+    }else if (y.style.right == '1rem' && window.addEventListener(this.click = true)){
+      y.style.right = '-10rem';
+      console.log('hide navbar');
+    }else{
+      y.style.right = '1rem';
+    }
+  })
+  z.addEventListener('click', function(){
+    y.style.right = '-9rem';
+  })
+}
+
+drawNavbar();
+
+function activateButton(buttonState){
+  for(let btnState of buttonState){
+    buttonStateList.push(btnState);
+    console.log(btnState);
+    let buttonStateId = btnState.id;
+    for(var btnStateItem of buttonStateList)
+      if (btnStateItem === 'inactive'){
+        btnStateItem = 'active';
+      }else{
+        btnStateItem = 'inactive';
+      }
+    return buttonStateId;
+  }
+  return btnState;
+}
+
+
+function toggleImagedisplay(){
+  var podcast = document.getElementById('podcast');
+  var vidcast = document.getElementById('vidcast');
+  var image = document.getElementById('image');
+  var imageTab = document.getElementById('image-tab');
+  var videoTab = document.getElementById('video-tab');
+  var podcastTab = document.getElementById('podcast-tab');
+  activateButton(buttonState);
+
+  if (image.style.display == 'block'){
+    image.style.display = 'block';
+    vidcast.style.display = 'none';
+    podcast.style.display = 'none';
+    imageTab.style.backgroundColor = 'whitesmoke';
+    podcastTab.style.backgroundColor = 'white';
+    videoTab.style.backgroundColor = 'white';
+    imageTab.style.color='white'
+
+  }else{
+    image.style.display = 'block';
+    vidcast.style.display = 'none';
+    podcast.style.display = 'none';
+    imageTab.style.backgroundColor = 'whitesmoke';
+    podcastTab.style.backgroundColor = 'white';
+    videoTab.style.backgroundColor = 'white';
+
+  }
+}
+
+function toggleVideodisplay(){
+  let podcast = document.getElementById('podcast');
+  let vidcast = document.getElementById('vidcast');
+  let image = document.getElementById('image');
+  let buttonState = document.querySelector('button').id;
+  var videoTab = document.getElementById('video-tab');
+  var imageTab = document.getElementById('image-tab');
+  var podcastTab = document.getElementById('podcast-tab');
+  activateButton(buttonState);
+
+  if (vidcast.style.display == 'block'){
+    vidcast.style.display = 'block';
+    podcast.style.display = 'none';
+    image.style.display = 'none';
+    videoTab.style.backgroundColor = 'whitesmoke';
+    imageTab.style.backgroundColor = 'white';
+    podcastTab.style.backgroundColor = 'white';
+    videoTab.style.color='white'
+  }else{
+    vidcast.style.display = 'block';
+    podcast.style.display = 'none';
+    image.style.display = 'none';
+    videoTab.style.backgroundColor = 'whitesmoke';
+    imageTab.style.backgroundColor = 'white';
+    podcastTab.style.backgroundColor = 'white';
+    videoTab.style.color='white'
+  };
+}
+
+function togglePodcastdisplay(){
+  let podcast = document.getElementById('podcast');
+  let vidcast = document.getElementById('vidcast');
+  let image = document.getElementById('image');
+  let buttonState = document.querySelector('button').id;
+  var podcastTab = document.getElementById('podcast-tab');
+  var videoTab = document.getElementById('video-tab');
+  var imageTab = document.getElementById('image-tab');
+  activateButton(buttonState);
+
+  if (podcast.style.display == 'block'){
+    podcast.style.display = 'block';
+    image.style.display = 'none';
+    vidcast.style.dispaly = 'none';
+    podcastTab.style.backgroundColor = 'whitesmoke';
+    videoTab.style.backgroundColor = 'white';
+    imageTab.style.backgroundColor = 'white';
+    podcastTab.style.color='white'
+  }else{
+    podcast.style.display = 'block';
+    image.style.display = 'none';
+    vidcast.style.display = 'none';
+    podcastTab.style.backgroundColor = 'whitesmoke';
+    videoTab.style.backgroundColor = 'white';
+    imageTab.style.backgroundColor = 'white';
+    podcastTab.style.color='white'
+  }
+}
 
 console.log("ABOUT TO ENTER FUNCTION");
 
@@ -26,6 +203,7 @@ const check = () => {
     if (!('PushManager' in window)) {
         throw new Error('No Push API Support!')
     }
+    
 }
 
 const main = () => {

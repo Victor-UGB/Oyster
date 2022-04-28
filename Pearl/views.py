@@ -31,11 +31,13 @@ class PearlListView(ListView):
     queryset = Post.objects.all()
     context_object_name = 'home_list'
     template_name = 'pearl/home.html'
+    audio_file = Post.pearl_audio
 
     def get_context_data(self, **kwargs):
         context = super(PearlListView, self).get_context_data(**kwargs)
         context['newest_post'] = Post.objects.order_by('-created_date')[:1]
         context['previous_post'] = Post.objects.order_by('-created_date')[1:2]
+        context['audio_file'] = Post.pearl_audio
         return context
 
  # def get_queryset(self):
@@ -79,6 +81,14 @@ class PearlDetailView(DetailView):
         context['days_left'] = days_left
         return context
 
+
+
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["audio_file"] = Post.pearl_audio
+    #     return context
+    
     ########################## 
 
 # class ArchiveListView(ListView):
@@ -114,7 +124,7 @@ def archive_pearl(request, id):
         messages.success(request, 'Archived')
     
     return redirect('home_list')
-   
+
 
 # def archive(request):
     #     new = Post.objects.all()
@@ -126,6 +136,15 @@ def archive_pearl(request, id):
     #     if post.archived.filter(id=request.user.id).exists():
     #         is_archived = True
 
+# def pearl_audio(request, id):
+#     post = get_object_or_404(Post, id=id)
+#     user = request.user
+#     audio_file = post.pearl_audio
+
+#     context = {
+#         'audio_file': audio_file,
+#     }
+#     return render(request, 'pearl/pearl_audio.html', context)
 
 def archive_list(request):
     user = request.user
@@ -174,7 +193,7 @@ def login_request(request):
                 messages.info(request, f"You are now logged in as {username}.")
                 return redirect('home_list')
             else:
-                messages.error(request, "Invalid username or password.")
+                messages.error(request, "Invalid password.")
         else:
             messages.error(request, "Invalid username or password")
     form = AuthenticationForm()
@@ -182,6 +201,9 @@ def login_request(request):
 
 def altar_call_request(request):
     return render(request, 'pearl/altar_call.html', {})
+
+def pearl_audio(request):
+    return render(request, 'pearl/pearl_audio.html', {})
 
 def logout_request(request):
     logout(request)
@@ -216,5 +238,5 @@ def password_reset_request(request):
                     return redirect("/password_reset/done/")
     password_reset_form = PasswordResetForm()
     return render(request=request, template_name="password/password_reset.html",
-                  context={"password_reset_form": password_reset_form})
+            context={"password_reset_form": password_reset_form})
 
