@@ -200,7 +200,7 @@ h4{
     margin-bottom: 0;
 }
 
-.title h2::before{
+/* .title h2::before{
     content: attr(title);
     position: absolute;
     top: 0;
@@ -219,7 +219,7 @@ h4{
     letter-spacing: 2px;
     margin-top: 2rem;
     margin-bottom: 0;
-}
+} */
 
 @keyframes animate {
     0%, 10%, 100%{
@@ -555,7 +555,7 @@ footer{
     }
 
     .title h1{
-        font-size: 11vw;
+        font-size: 12vw;
     }
 
     .post-entry h2{
@@ -772,7 +772,7 @@ footer{
     .vl{
         border-left: 6px solid #383A48;
         border-radius: 30px;
-        height: 40px;
+        height: 50px;
         position: absolute;
         margin-left: -16px;
         top: 30%;

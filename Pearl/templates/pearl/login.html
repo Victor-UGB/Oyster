@@ -17,10 +17,13 @@
 
 <div class = "in-the-works">
     <div class="itw-image"></div>
-    <div class="itw-text"><h3>Hi there, thanks for visiting this page. We are making it great for you so
-        it is unavailable for now.</h3>
+    <div class="title itw-text"><h1>Hi there, thanks for visiting this page. </h1> <h2 style="font-size:5vw;">We are making it great for you so
+        it is unavailable for now.</h2>
     </div>
-    <div class="time-left-to-update"><p>Ready in day(s)</p></div>
+    {% comment %} <div class="time-left-to-update"><p>Ready in day(s)</p></div> {% endcomment %}
+</div>
+<div style="margin:auto; text-align:center; margin-top: 2rem;">
+    <a href="{% url 'home_list' %}"><input type="submit" value="Back Home" class="post-entry-input"></a>
 </div>
 
 {% endblock %}
