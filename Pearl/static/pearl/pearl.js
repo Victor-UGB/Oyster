@@ -120,7 +120,7 @@ function toggleImagedisplay(){
     image.style.display = 'block';
     vidcast.style.display = 'none';
     podcast.style.display = 'none';
-    imageTab.style.backgroundColor = 'whitesmoke';
+    imageTab.style.backgroundColor = '#383A48';
     podcastTab.style.backgroundColor = 'white';
     videoTab.style.backgroundColor = 'white';
     imageTab.style.color='white'
@@ -129,7 +129,7 @@ function toggleImagedisplay(){
     image.style.display = 'block';
     vidcast.style.display = 'none';
     podcast.style.display = 'none';
-    imageTab.style.backgroundColor = 'whitesmoke';
+    imageTab.style.backgroundColor = '#383A48';
     podcastTab.style.backgroundColor = 'white';
     videoTab.style.backgroundColor = 'white';
 
@@ -150,7 +150,7 @@ function toggleVideodisplay(){
     vidcast.style.display = 'block';
     podcast.style.display = 'none';
     image.style.display = 'none';
-    videoTab.style.backgroundColor = 'whitesmoke';
+    videoTab.style.backgroundColor = '#383A48';
     imageTab.style.backgroundColor = 'white';
     podcastTab.style.backgroundColor = 'white';
     videoTab.style.color='white'
@@ -158,7 +158,7 @@ function toggleVideodisplay(){
     vidcast.style.display = 'block';
     podcast.style.display = 'none';
     image.style.display = 'none';
-    videoTab.style.backgroundColor = 'whitesmoke';
+    videoTab.style.backgroundColor = '#383A48';
     imageTab.style.backgroundColor = 'white';
     podcastTab.style.backgroundColor = 'white';
     videoTab.style.color='white'
@@ -179,7 +179,7 @@ function togglePodcastdisplay(){
     podcast.style.display = 'block';
     image.style.display = 'none';
     vidcast.style.dispaly = 'none';
-    podcastTab.style.backgroundColor = 'whitesmoke';
+    podcastTab.style.backgroundColor = '#383A48';
     videoTab.style.backgroundColor = 'white';
     imageTab.style.backgroundColor = 'white';
     podcastTab.style.color='white'
@@ -187,7 +187,7 @@ function togglePodcastdisplay(){
     podcast.style.display = 'block';
     image.style.display = 'none';
     vidcast.style.display = 'none';
-    podcastTab.style.backgroundColor = 'whitesmoke';
+    podcastTab.style.backgroundColor = '#383A48';
     videoTab.style.backgroundColor = 'white';
     imageTab.style.backgroundColor = 'white';
     podcastTab.style.color='white'

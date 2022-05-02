@@ -17,6 +17,11 @@ TITLE_CHOICES = [
     ('FOR WISDOM', "for wisdom"),
     ('FOR LOVE', "for love"),
     ('FOR POWER', "for power"),
+    ("FOR STRENGTH", "for strength",),
+    ('FOR RICHES', "for riches"),
+    ('FOR HONOUR', "for honour"),
+    ('FOR BLESSING', "for blessing"),
+    ('FOR GLORY', "for glory"),
 ]
 
 class Post(models.Model):

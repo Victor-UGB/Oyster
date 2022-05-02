@@ -9,7 +9,7 @@
                 {% for post in newest_post %}
                     {% comment %} {% if user.is_authenticated %} {% endcomment %}
                 <div class="title">
-                    <h1 >Pearl For Today</h1>
+                    <h1 style="margin-top:3rem;">Pearl For Today</h1>
                     <p>{{ post.created_date }}</p>
                 </div>
                 <div class="post-entry">
@@ -17,7 +17,7 @@
                     
                     <div class="navigation-bar" id='navigationBar'> 
                         <div onclick='drawNavBar()' class='vl' id="navBarDrawer" style= "cursor:pointer;"></div>
-                        <button data-page="image"  onclick='toggleImagedisplay()' class= "tab-buttons" id="image-tab" style = 'background-color: whitesmoke; background-clip: content-box;' data-color = 'green'><h4>Image</h4></button>
+                        <button data-page="image"  onclick='toggleImagedisplay()' class= "tab-buttons" id="image-tab" style = 'background-color: #383A48; background-clip: content-box;' data-color = 'green'><h4>Preview</h4></button>
                         <button data-page="podcast"  onclick='togglePodcastdisplay()' class= "tab-buttons" id="podcast-tab" style = 'background-color: white;' data-color = 'gray'><h4>Listen</h4></button>
                         <button data-page="vidcast"  onclick='toggleVideodisplay()' class="tab-buttons" id="video-tab" style = 'background-color: white' data-color = 'gray'><h4>Watch</h4></button>
                     </div>
@@ -42,9 +42,9 @@
                         </div>
                     </div>
                     <div class="input-div">
-                        <div>
+                        {% comment %} <div>
                         <a href="{% url 'archive_pearl' post.id %}" oncl><input type="submit" value="archive" class="post-entry-input"></a>
-                        </div>
+                        </div> {% endcomment %}
                         <div>
                         <a href="{{ post.pearl_image.url }}" download="{{ post.pearl.url }}"><input type="submit" value="download" class="post-entry-input"></a>
                         </div>
@@ -125,7 +125,7 @@
             <b class="footer-address">PearlsMEDIA with Love,</b>
             </div>
             <div>
-            <b style= "font-size: small; font-weight:300;">  Vecugo 2021</b>
+            <b style= "font-size: small; font-weight:300; font-family: 'Righteous', cursive;">  Vecugo 2021</b>
             </div>
         </footer>
         </div>

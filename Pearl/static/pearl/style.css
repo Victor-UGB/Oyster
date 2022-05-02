@@ -16,8 +16,11 @@ li a{
 }
 
 body{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.nav-link{
+    color:#3a3a3a;
 }
 
 .logo{
@@ -46,7 +49,8 @@ ul{
 }
 
 h1{
-    color: #707070;
+    font-family: 'Righteous', cursive;
+    color: #3a3a3a;
     letter-spacing: 2px;
     margin-top: 2em;
 }
@@ -167,7 +171,7 @@ h4{
 }
 
 .nav-right li a{
-    color: #707070;
+    color: #3a3a3a;
     text-decoration: none;
     padding: 0em 1em 0em 1em;
     font-size: 14px;
@@ -228,9 +232,9 @@ h4{
 }
 
 .title h1{
-    color: #707070;
+    color: #3a3a3a;
     font-weight: 800;
-    font-size: 25px;
+    font-size: 8vw;
     letter-spacing: 4px;
     margin-top: 2rem;
     margin-bottom: 0;
@@ -303,8 +307,7 @@ h4{
     margin-right: 0em;
     margin-top: 10rem;
     background-color: white;
-    border-radius: 20px 20px 20px 20px;
-    box-shadow: 0px 6px 1px 3px whitesmoke;
+    box-shadow: 1px 6px 1px 3px whitesmoke;
 }
 
 .post-entry{
@@ -519,6 +522,7 @@ footer{
 
 }
 .footer-address{
+    font-family: 'Righteous', cursive;
     margin-top: 4rem;
     color: #383A48;
     font-size: small;
@@ -550,8 +554,16 @@ footer{
         /* margin: 3.5rem 1rem 0rem 1rem; */
     }
 
+    .title h1{
+        font-size: 11vw;
+    }
+
+    .post-entry h2{
+        margin-top:  3rem;
+        margin-bottom: 0;
+    }
+
     .post-entry-sub{
-        margin-top: 2rem;
         display: inline-block;
         text-align:center;
         max-width: 100%;
@@ -579,7 +591,7 @@ footer{
 
     .second-child {
         margin-top: 4rem;
-        width: 95%;
+        width: 97%;
         margin: auto;
         margin-top: 4rem; 
         text-align: center;
@@ -758,7 +770,7 @@ footer{
     }
 
     .vl{
-        border-left: 6px solid gainsboro;
+        border-left: 6px solid #383A48;
         border-radius: 30px;
         height: 40px;
         position: absolute;
