@@ -10,7 +10,7 @@
                     {% comment %} {% if user.is_authenticated %} {% endcomment %}
                 <div class="title">
                     <h1 style="margin-top:3rem;">Pearl For Today</h1>
-                    <p>{{ post.created_date }}</p>
+                    <p>Uploaded: {{ post.created_date }}</p>
                 </div>
                 <div class="post-entry">
                     
@@ -62,7 +62,7 @@
 
                         <div class= 'previous-post-container'>
                             
-                            <div style="margin: 0rem;">
+                            <div style="margin: 0rem; text-align:center;">
                                 <img src="{{ post.pearl_image.url }}" alt="yesterday_pearl_img" class="previous-post-image">
                                 <div class="previous-post-summary-div"><h3 class="category-text"><a href="{% url 'pearl_detail' post.pk %}">{{ post.pearl_category }}</a></h3>
                                     <p class="previous-post-summary-p">{{ post.pearl_summary }}</p>

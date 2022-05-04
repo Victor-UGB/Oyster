@@ -304,6 +304,7 @@ h4{
 
 .second-child{
     width: 35%;
+    align-self: center;
     margin-right: 0em;
     margin-top: 10rem;
     background-color: white;
