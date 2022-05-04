@@ -777,6 +777,14 @@ footer{
         margin-left: -16px;
         top: 30%;
     }
+
+    .mobile-assist{
+        margin-top: 1rem;
+        display: block !important;
+        font-size: smaller;
+        color:#383A48;
+    }
+
     .image-container{
         display: inline-block !important;
     }

@@ -34,11 +34,14 @@
                     </div>
                     <div class="post-entry-sub" id='image'>
                         <div class= 'image-container'style="display:flex;">
-                        <img src="{{ post.pearl_image.url }}" alt="pearl_img">
+                        <img 
+                        src="{{ post.pearl_image.url }}" alt="pearl_img">
                         <div class="post-summary-div">
                         <p class="post-summary-p">{{ post.pearl_summary }}</p>
                         <address class="post-summary-address"><b>{{ post.pearl_scripture }}</b></address>
+                        <address class= "mobile-assist"  style="display:none;">Tap slider to the right of your preview image to see more</address>
                         </div>
+                        
                         </div>
                     </div>
                     <div class="input-div">
