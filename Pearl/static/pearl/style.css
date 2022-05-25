@@ -79,6 +79,13 @@ h3{
     padding: 2rem;
 }
 
+.category-head{
+
+    text-align: center;
+    margin-top: 0rem;
+    padding: 2rem;
+}
+
 h3 a{
     color: #707070;
     text-decoration: none;
@@ -286,8 +293,9 @@ h4{
 }
 
 .category-text{
+    font-family: 'Righteous', cursive;
     font-size: 20px;
-    color: #999999;
+    color: #3a3a3a;
     
 }
 

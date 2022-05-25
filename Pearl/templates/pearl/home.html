@@ -17,13 +17,16 @@
                     
                     <div class="navigation-bar" id='navigationBar' style='margin-top: 1rem;'> 
                         {% comment %} <div onclick='drawNavBar()' class='vl' id="navBarDrawer" style= "cursor:pointer;"></div> {% endcomment %}
-                        <button data-page="image"  onclick='toggleImagedisplay()' class= "tab-buttons" id="image-tab" style = 'background-color: #383A48; transition:ease-in-out 0.3s;' data-color = 'green'><h4>Preview</h4></button>
-                        <button data-page="podcast"  onclick='togglePodcastdisplay()' class= "tab-buttons" id="podcast-tab" style = 'background-color: white; transition:ease-in-out 0.3s;' data-color = 'gray'><h4>Listen</h4></button>
-                        <button data-page="vidcast"  onclick='toggleVideodisplay()' class="tab-buttons" id="video-tab" style = 'background-color: white transition:ease-in-out 0.3s;' data-color = 'gray'><h4>Watch</h4></button>
+                        <button data-page="image"  onclick='toggleImagedisplay()' class= "tab-buttons" id="image-tab" style = 'background-color: #383A48; ' data-color = 'green'><h4>Preview</h4></button>
+                        <button data-page="podcast"  onclick='togglePodcastdisplay()' class= "tab-buttons" id="podcast-tab" style = 'background-color: white; ' data-color = 'gray'><h4>Listen</h4></button>
+                        <button data-page="vidcast"  onclick='toggleVideodisplay()' class="tab-buttons" id="video-tab" style = 'background-color: white' data-color = 'gray'><h4>Watch</h4></button>
                     </div>
-                    <div class="category-div">
+                    {% comment %} <div class="category-div">
                     <h2 class="category-text"><a href="{% url 'pearl_detail' post.pk %}" class="category-text">{{ post.pearl_category }}</a></h2>
-                    </div>
+                    </div> {% endcomment %}
+                    <div class="category-div">
+                        <h2 class="category-text"><a href="" class="category-text">{{ post.pearl_category }}</a></h2>
+                        </div>
                     <div class='post-entry-sub' id='podcast' style = 'display:none;'> 
                         <img 
                         src="{{ post.pearl_image.url }}" alt="pearl_img" style="border-radius:10px;">
@@ -68,7 +71,11 @@
                             
                             <div style="margin: 0rem; text-align:center;">
                                 <img src="{{ post.pearl_image.url }}" alt="yesterday_pearl_img" class="previous-post-image">
-                                <div class="previous-post-summary-div"><h3 class="category-text"><a href="{% url 'pearl_detail' post.pk %}">{{ post.pearl_category }}</a></h3>
+                                {% comment %} <div class="previous-post-summary-div"><h3 class="category-text"><a href="{% url 'pearl_detail' post.pk %}">{{ post.pearl_category }}</a></h3>
+                                    <p class="previous-post-summary-p">{{ post.pearl_summary }}</p>
+                                    <address class="previous-post-summary-address">{{ post.pearl_scripture }}</address>
+                                </div> {% endcomment %}
+                                <div class="previous-post-summary-div"><h3 class="category-head"><a href="">{{ post.pearl_category }}</a></h3>
                                     <p class="previous-post-summary-p">{{ post.pearl_summary }}</p>
                                     <address class="previous-post-summary-address">{{ post.pearl_scripture }}</address>
                                 </div>
