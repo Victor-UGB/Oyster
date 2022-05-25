@@ -69,26 +69,26 @@ function burgerMenu() {
 //   $(".second-child").css("transform","translate(-20px,-"+scrollVal/2+'%)');
 // });
 
-function drawNavbar(){
-  let x = document.getElementById('navBarDrawer');
-  let y = document.getElementById('navigationBar');
-  let z = document.getElementById('tabDiv');
-  x.addEventListener('click', function(){
-    if (y.style.right == '1rem'){
-      y.style.right = '-10rem';
-    }else if (y.style.right == '1rem' && window.addEventListener(this.click = true)){
-      y.style.right = '-10rem';
-      console.log('hide navbar');
-    }else{
-      y.style.right = '1rem';
-    }
-  })
-  z.addEventListener('click', function(){
-    y.style.right = '-9rem';
-  })
-}
+// function drawNavbar(){
+//   let x = document.getElementById('navBarDrawer');
+//   let y = document.getElementById('navigationBar');
+//   let z = document.getElementById('tabDiv');
+//   x.addEventListener('click', function(){
+//     if (y.style.right == '1rem'){
+//       y.style.right = '-10rem';
+//     }else if (y.style.right == '1rem' && window.addEventListener(this.click = true)){
+//       y.style.right = '-10rem';
+//       console.log('hide navbar');
+//     }else{
+//       y.style.right = '1rem';
+//     }
+//   })
+//   z.addEventListener('click', function(){
+//     y.style.right = '-9rem';
+//   })
+// }
 
-drawNavbar();
+// drawNavbar();
 
 function activateButton(buttonState){
   for(let btnState of buttonState){
