@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
+
+*{
+    margin: 0rem;
+    font-family:monospace;
+}
+.light{
+    background-color: rgb(231, 234, 234);
+}
+.full-screen{
+    height: 100vh;
+    align-items: flex-end;
+    display: grid;
+    padding: 1rem;
+}
+.centralize-y{
+    display: grid;
+    align-items: center;
+    /* height: 100%; */
+}
+.font-h1{
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 0rem 0rem;
+    padding: .5rem 0rem;
+}
+.font-h2{
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0rem 0rem;
+    padding: 0rem 0rem .5rem 0rem;
+}
+.font-h5{
+    font-size: 1rem;
+    padding: .2rem 0rem;
+    line-height: 1.8rem;
+    letter-spacing: 1.2px;
+}
+.font-h7{
+    font-size: .8rem;
+    margin: 0rem 0rem;
+    padding: 0rem 0rem;
+}
+.font-p1, .font-p2, .font-p3{
+    font-size: small;
+    font-weight: 700;
+}
+.font-p1{
+    padding: .2rem 0rem;
+    line-height: 1.8rem;
+    letter-spacing: 1.2px;
+}
+.font-p2{
+    padding: .2rem 0rem;
+    line-height: 1.8rem;
+    letter-spacing: .6px;
+    font-weight: 400;
+}
+.font-p3{
+    padding: .2rem 2rem;
+    line-height: 1.8rem;
+    letter-spacing: .6px;
+    font-weight: 600;
+    text-align: center;
+    color: #7c7c7f
+}
+.font-p3::before{
+    content: "";
+    position: relative;
+    left: -1rem;
+    width: 1rem;
+    height: 1rem;
+    background-color:rgb(0, 255, 170);
+    display: block;
+}
+.font-p3::after{
+    content: "";
+    right: -100%;
+    bottom: 1rem;
+    width: 1rem;
+    height: 1rem;
+    position: relative;
+    background-color:rgb(0, 245, 164);
+    display: block;
+}
+.form1{
+    padding: 2rem 0rem;
+}
+.form1 .input1{
+    font-size: medium;
+    padding: .5rem;
+    border: 2px solid rgb(251, 249, 254);
+    width: 14rem;
+    text-overflow: ellipsis;
+    border-radius: 2px;
+    margin-right: 1rem;
+    color: rgb(56, 56, 56);
+    background-color: rgb(251, 249, 254);
+}
+.form1 .input2{
+    font-size: medium;
+    padding: .5rem 2rem;
+    text-overflow: ellipsis;
+    border-radius: 2px;
+    border: 2px solid azure;
+    color: azure;
+    font-weight: 600;
+    background-color: transparent;
+}
+.hide-display{
+    display: none;
+    transition: all ease-in-out 2s;
+}
+.show-display{
+    display: block;
+    transition: all ease-in-out 2s;
+}
+.abs1{
+    position: absolute;
+    right: .4rem;
+}
+.nav-button, .nav-button button{
+    font-size: larger;
+    font-weight: 600;
+    background-color: #efefef;
+    border: none;
+    color: rgb(54, 51, 51);
+    padding: .5rem 1rem;
+    float: right;
+    margin: .3rem 0rem;
+    width: 10rem;
+    text-align: end;
+}
+.nav-button1{
+    font-size: larger;
+    font-weight: 600;
+    background-color: transparent;
+    border: none;
+    color: azure;
+    padding: 1rem 1rem;
+    float: right;
+}
+.section-title{
+    text-align: center;
+    padding: 2rem 0rem 0rem 0rem;
+    font-weight: 800;
+    color: black;
+}
+.card-subtitle{
+    color: rgb(182, 182, 197);
+    font-weight: 800;
+    text-decoration: overline;
+}
+.card-title{
+    color: rgb(83, 83, 87)
+}
+.card-two-text{
+    color: white;
+}
+.card-two-card{
+    min-width: 100%;
+}
+/* .subtitle::before{
+    content: "";
+    width:5rem;
+    height: .1rem;
+    top: 5rem;
+    background-color: #6959b1;
+    display: block;
+} */
+.action-button{
+    font-size: small;
+    font-weight: 600;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid rgb(0, 21, 255);
+    box-shadow: #7c7c7f;
+    color: rgb(45, 50, 50);
+    padding: .5rem 1rem;
+    float: left;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+.action-button::before{
+    content: "";
+    top:0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: blue;
+    transform: translateX(-100%);
+    position: absolute;
+    z-index: -1;
+    
+}
+.action-button:hover::before{
+    /* transition: transform 5s ease-in-out .5s; */
+    cursor: pointer;
+    /* animation: button-fade-anime 1s timing-function delay iteration-count direction fill-mode; */
+    animation: button-fade-anime .2s ease-in-out forwards ;
+}
+.action-button:hover{
+    color: #efefef;
+    transition: .5s;
+}
+.card-container{
+    padding: 1rem;
+    margin: 1.5rem 0rem 0rem 0rem;
+}
+.card-img-container{
+    padding: .8rem 0rem;
+    border-radius: .2rem;
+}
+.card-img{
+    height: 18rem;
+    width: 100%;
+    object-fit:cover;
+    border-radius: .2rem;
+}
+.show-display > div:nth-child(1) button{
+    animation: step-down .6s;
+    transition: transform 2s ease-out 1s;
+}
+.show-display > div:nth-child(2) button {
+    animation: step-down .8s;
+    transition: transform 5s ease-in-out 4s;
+}
+
+/* animations */
+
+@keyframes step-down{
+    0%{
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    50%{
+        transform: translateY(-50%);
+        opacity: 0
+    }
+    100%{
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes button-fade-anime {
+    from{
+        transform: translateX(-90%);
+    }
+    to{
+        transform: translateX(0%);
+    }
+    
+}
