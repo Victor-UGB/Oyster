@@ -3,10 +3,10 @@ import {render} from "react-dom";
 
 // import "./landingpage.css"
 
-const colors = ['green', 'red', 'yellow', 'purple', 'black']
+// const colors = ['green', 'red', 'yellow', 'purple', 'black']
 
 export default function Hero(props){
-    const colors = ['green', 'red', 'yellow', 'purple', 'black']
+    const colors = ['black', 'red', 'orange', 'purple', 'green']
     const [count, setCount] = useState(0)
 
     const [bgcolor, setbgColor] = useState(colors[count])

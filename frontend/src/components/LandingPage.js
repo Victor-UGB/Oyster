@@ -6,13 +6,16 @@ import Navigation from "./GeneralComp/Navigation";
 import Login from "./LoginComp/Login";
 import Card from "./GeneralComp/Card";
 import CardTwo from "./GeneralComp/CardTwo";
+import Typewriter from "typewriter-effect"
+import ProgressBar from "./GeneralComp/ProgressBar";
+import Signup from "./SignupComp/Signup";
 
 export default class LandingPage extends Component{
     constructor(props){
         super(props)
         this.state={
             count: 0,
-            color: ['green', 'red', 'orange', 'purple', 'black']
+            color: ['black', 'red', 'orange', 'purple', 'green']
         }
         this.transitColor = this.transitColor.bind(this)
     }
@@ -36,12 +39,30 @@ export default class LandingPage extends Component{
 
     renderLandingPage(){
         return(
-            <div className="light">
+            <div className="light" style={{height: "100%"}}>
                 {/* <div><Navigation/></div> */}
                 <div><Hero/></div>
                 <div>
                     <div>
-                        <div className="section-title">The World is Your Community</div>
+                        <div className="section-title">
+                            <Typewriter 
+                                onInit={(typewiter) => {
+                                    typewiter
+                                        .typeString("The World is Your Community")
+                                        .pauseFor(2000)
+                                        .deleteAll()
+                                        .typeString("Do You")
+                                        .pauseFor(1000)
+                                        .deleteAll()
+                                        .typeString("Show Love")
+                                        .pauseFor(1000)
+                                        .deleteAll()
+                                        .typeString("Change Lives!")
+                                        .start()
+                                } 
+                                }
+                            /> 
+                        </div>
                         <div className="font-p3"> Share the beauty of your world to a boundless community, Let people around the world into your beautiful mind.</div>
                     </div>
                     <div>
@@ -84,11 +105,13 @@ export default class LandingPage extends Component{
             <div>
                 <div>
                     <BrowserRouter>
+                        <ProgressBar/>
                         <Navigation/>
                         <Routes>
                             <Route>
                                 <Route path="/" element={this.renderLandingPage()}/>
                                 <Route path="/login" element={<Login/>}/>
+                                <Route path="/signup" element={<Signup/>}/>
                             </Route>
                         </Routes>
                     </BrowserRouter>

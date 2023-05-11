@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Card from "./Card";
+import Typewriter from "typewriter-effect"
 
 
 export default function CardTwo(props){
@@ -24,14 +25,33 @@ export default function CardTwo(props){
         <div style={{backgroundColor:"black", color: "white", transition: "ease-in-out 2s"}}>
             <div className='card-container'>
                 <div>
-                    <div className='section-title card-two-text'>{props.subTitle}</div>
+                    <div className='section-title card-two-text'> {props.subTitle}</div>
                 </div>
                 <div>
                     <div className='font-h2 card-two-text'>{props.title}</div>
                 </div>
                 
                 <div>
-                    <div className='font-p3 card-two-text'>{props.para}</div>
+                    <div className="font-p3 card-two-text">
+                    <Typewriter 
+                                onInit={(typewiter) => {
+                                    typewiter
+                                        .typeString(props.para)
+                                        // .pauseFor(2000)
+                                        // .deleteAll()
+                                        // .typeString("Do You")
+                                        // .pauseFor(1000)
+                                        // .deleteAll()
+                                        // .typeString("Show Love")
+                                        // .pauseFor(1000)
+                                        // .deleteAll()
+                                        // .typeString("Change Lives!")
+                                        .start()
+                                } 
+                                }
+                    />
+                    </div>
+                    {/* <div className='font-p3 card-two-text'>{props.para}</div> */}
                 </div>
                 {/* <div style={{padding: ".5rem 0rem 1rem 0rem"}}>
                     <Button 
@@ -41,17 +61,17 @@ export default function CardTwo(props){
                     />
                 </div> */}
             </div>
-            <hr style={{width: "70%", margin: "auto", border: ".5px  solid red"}}/>
-            <div style={{display: "flex", flexDirection: "row", overflow: "hidden", overflowX: "scroll"}}>
+            <hr style={{width: "70%", margin: "auto", border: ".5px  solid dimgray"}}/>
+            <div style={{display: "flex", flexDirection: "row", overflow: "clip", overflowX: "scroll"}}>
                 
                     {articles.map((article) => 
                         (<div className="card-two-card">
                             <Card
-                            subTitle = {article.subTitle}
+                            // subTitle = {article.subTitle}
                             title = {article.title}
                             imgSource = {article.imgSoure}
                             para = {article.para}
-                            actionBtn = "Button"
+                            actionBtn = "See more"
                             btnClass = "action-button"
                             link = "/"
                             />
