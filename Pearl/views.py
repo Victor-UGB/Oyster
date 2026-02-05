@@ -1,6 +1,23 @@
+
+# Pearl app Import
+from .models import Post, User, Tag
+from .serializers import PasswordResetSerializer, UserSerializers, PostSerializer, RegisterUserSerializer, TagListSerializer, LoginSerializer
+
+
+# Rest Framework Imports
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
+from rest_framework.decorators import api_view, permission_classes, throttle_classes
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.throttling import ScopedRateThrottle
+from drf_spectacular.utils import extend_schema
+
+
+# Django Imports
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
-from .models import Post
 from django.template import loader
 from django.urls import reverse, reverse_lazy
 from .forms import NewUserForm
@@ -9,7 +26,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, HttpResponseRedirect, Http404, request
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 import datetime
 from django.db.models.query_utils import Q
@@ -25,39 +42,39 @@ from vecugoinc import settings
 
 # Create your views here.
 
+""" Insert your art here """
 
-class PearlListView(ListView):
-    # model = Post
+# Registeration API
+
+class RegisterUserView(RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer = RegisterUserSerializer
+
+class TagListView(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Tag.objects.all()
+    serializer = TagListSerializer
+
+# API for pearl query 
+# @extend_schema(
+#         request=RegisterUserSerializer,
+#         responses={200: None}
+# )
+class PearlView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = PostSerializer
     queryset = Post.objects.all()
     context_object_name = 'home_list'
     template_name = 'pearl/home.html'
     audio_file = Post.pearl_audio
 
-    def get_context_data(self, **kwargs):
-        context = super(PearlListView, self).get_context_data(**kwargs)
-        context['newest_post'] = Post.objects.order_by('-created_date')[:1]
-        context['previous_post'] = Post.objects.order_by('-created_date')[1:2]
-        context['audio_file'] = Post.pearl_audio
-        return context
-
- # def get_queryset(self):
-    #     """Return the last five published questions."""
-    #     return Post.objects.order_by('-created_date')[:1]
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(PearlListView, self).get_context_data(**kwargs)
-    #     context.update({
-    #         'yesterday_post': Post.objects.order_by('-created_date')[1:2]
-    #     })
-
-
- # class PreviousPostView(ListView):
-    #     model = Post
-    #     template_name = 'pearl/home.html'
-    #     context_object_name = 'previous_post'
-    #
-    #     def get_queryset(self):
-    #         return Post.objects.order_by('created_date')[1:2]
+    
+class PearlCreateView(CreateAPIView):
+    # Create pearl only when authenticated
+    permission_classes = [IsAuthenticated]
+    serializer_class = PostSerializer
+    
+    
 
 
 class PearlDetailView(DetailView):
@@ -81,24 +98,6 @@ class PearlDetailView(DetailView):
         context['days_left'] = days_left
         return context
 
-
-
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["audio_file"] = Post.pearl_audio
-    #     return context
-    
-    ########################## 
-
-# class ArchiveListView(ListView):
-    #     model = Post
-    #     template_name = 'pearl/archive.html'
-    #     context_object_name = 'archived_post'
-
-    # return post that have been archived for less than 30 days
-    # def get_queryset(self):
-    #     return Post.object.filter(Archive.life_span < timedelta(30))
 
 
 def download_pearl(request, path):
@@ -126,26 +125,6 @@ def archive_pearl(request, id):
     return redirect('home_list')
 
 
-# def archive(request):
-    #     new = Post.objects.all()
-    #     return render(request, 'pearl/archive.html', {'new': new})
-
-    # def archive_detail(self, request, id):
-    #     post = get_object_or_404(Post, id=id)
-    #     is_archived = False
-    #     if post.archived.filter(id=request.user.id).exists():
-    #         is_archived = True
-
-# def pearl_audio(request, id):
-#     post = get_object_or_404(Post, id=id)
-#     user = request.user
-#     audio_file = post.pearl_audio
-
-#     context = {
-#         'audio_file': audio_file,
-#     }
-#     return render(request, 'pearl/pearl_audio.html', context)
-
 def archive_list(request):
     user = request.user
     newest_post = Post.objects.order_by('-created_date')[:1]
@@ -161,14 +140,29 @@ def archive_list(request):
     return render(request, 'pearl/archive_list.html', context)
 
 
-# def auto_delete_archived_pearl(request):
-    #     user = request.user
-    #     post = Post.archived.filter(id=request.user.id)
-    #     for i in post:
-    #         if i.
-    #         post.archived.remove(request.user)
-
+@extend_schema(
+        request=RegisterUserSerializer,
+        responses={200: None}
+)
+@api_view(['POST'])
+@permission_classes([AllowAny])
 def register_request(request):
+    serializer = RegisterUserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        # Create a Profile 
+
+        return Response(
+            {
+                "message": "User Registered Successfully"
+            },
+             status= status.HTTP_201_CREATED
+        )
+    return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+
+
+
+def register_page(request):
     if request.method == 'POST':
         form = NewUserForm(request.POST)
         if form.is_valid():
@@ -178,10 +172,20 @@ def register_request(request):
             return redirect("altar_call")
         messages.error(request, 'Unsuccessful registration.')
     form = NewUserForm
+
     return render(request=request, template_name='pearl/register.html', context={'register_form': form})
 
-
+@throttle_classes([ScopedRateThrottle])
+@extend_schema(
+        request=LoginSerializer,
+        responses={200: None}
+)
+@api_view(['POST'])
+@permission_classes([AllowAny])
 def login_request(request):
+    request.throttle_scope = 'login'
+    queryset = User.objects.all()
+    serializer = LoginSerializer
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -191,13 +195,17 @@ def login_request(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
-                return redirect('home_list')
+                # return redirect('home_list')
+                return Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
             else:
                 messages.error(request, "Invalid password.")
+                return Response({'message': "User not found"}, status=status.HTTP_404_NOT_FOUND)
         else:
             messages.error(request, "Invalid username or password")
+            return Response({'message': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)
     form = AuthenticationForm()
-    return render(request=request, template_name="pearl/login.html", context={"login_form": form})
+    # return render(request=request, template_name="pearl/login.html", context={"login_form": form})
+    
 
 def altar_call_request(request):
     return render(request, 'pearl/altar_call.html', {})
@@ -211,7 +219,26 @@ def logout_request(request):
     return redirect("home_list")
 
 
+@extend_schema(
+        request=PasswordResetSerializer,
+        responses={200: None}
+)
+@permission_classes([AllowAny])
+@api_view(['POST'])
 def password_reset_request(request):
+    queryset = User.objects.all()
+    serializer = PasswordResetSerializer(data = request.data)
+    if serializer.is_valid():
+        user_query = queryset.filter(request["username"])
+        user = User.objects.filter(username = request.data['username'])
+        # if user is not None:
+        #     username = user
+        #     return Response ({'username': ""})
+        return Response({'Query Filter': user_query, 'Model Filter' : user}, status=status.HTTP_200_OK)
+    return Response({'message': 'serializer invalid'}, status= status.HTTP_400_BAD_REQUEST)
+
+def password_reset_request_page(request):
+    serializer = PasswordResetSerializer
     if request.method == "POST":
         password_reset_form = PasswordResetForm(request.POST)
         if password_reset_form.is_valid():
@@ -239,4 +266,3 @@ def password_reset_request(request):
     password_reset_form = PasswordResetForm()
     return render(request=request, template_name="password/password_reset.html",
             context={"password_reset_form": password_reset_form})
-
