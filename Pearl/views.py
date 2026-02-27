@@ -1,18 +1,19 @@
 
 # Pearl app Import
-from .models import Post, User, Tag
-from .serializers import PasswordResetSerializer, UserSerializers, PostSerializer, RegisterUserSerializer, TagListSerializer, LoginSerializer
+from .models import Post, User, Tag, Folder
+from .serializers import ContentContextSerializer, FolderSerializer, PasswordResetSerializer, UserSerializers, PostSerializer, RegisterUserSerializer, TagListSerializer, LoginSerializer
 
 
 # Rest Framework Imports
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView, RetrieveUpdateAPIView, UpdateAPIView
 from rest_framework.decorators import api_view, permission_classes, throttle_classes
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.throttling import ScopedRateThrottle
-from drf_spectacular.utils import extend_schema
+from rest_framework.parsers import MultiPartParser, FormParser
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 
 # Django Imports
@@ -50,17 +51,45 @@ class RegisterUserView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer = RegisterUserSerializer
 
+
 class TagListView(ListCreateAPIView):
     permission_classes = [IsAuthenticated]
-    queryset = Tag.objects.all()
-    serializer = TagListSerializer
+    serializer_class = TagListSerializer
+    queryset =  Tag.objects.all()
+
+
+class FolderListView(ListCreateAPIView):
+    serializer_class = FolderSerializer
+    queryset = Folder.objects.all()
+
+
+class FolderView(RetrieveUpdateAPIView):
+    lookup_field = "id"
+    serializer_class =FolderSerializer
+    queryset = Folder.objects.all()
+    permission_classes = [IsAuthenticated]
+
+
+class UserListView(ListCreateAPIView):
+    serializer_class = UserSerializers
+    queryset = User.objects.all()
+
 
 # API for pearl query 
-# @extend_schema(
-#         request=RegisterUserSerializer,
-#         responses={200: None}
-# )
+@extend_schema(
+        request=PostSerializer,
+        responses={200: None}, 
+        parameters= [
+            OpenApiParameter(
+                name= "id",
+                type=str,
+                location=OpenApiParameter.PATH,
+                description="UUID of the user"
+            )
+        ]
+)
 class PearlView(RetrieveUpdateDestroyAPIView):
+    lookup_field= "id"
     permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
     queryset = Post.objects.all()
@@ -74,29 +103,60 @@ class PearlCreateView(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
     
+
+class PearlListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer    
+
+
+class UserPearlListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = PostSerializer
+    lookup_field = "user"
+
+    def get_queryset(self):
+        user = self.request.user
+        return Post.objects.filter(user = user)
     
 
 
-class PearlDetailView(DetailView):
-    model = Post
-    template_name = 'pearl/pearl_detail.html'
+@extend_schema(
+    request= ContentContextSerializer
+    ,
+    parameters=[
+        OpenApiParameter(
+            name= "id",
+            type= str,
+            location=OpenApiParameter.PATH,
+            description="UUID of the pearl"
+        )
+    ]
+)
+class UploadContentContext(RetrieveUpdateAPIView):
+    http_method_names= ["patch"]
+    queryset = Post.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = ContentContextSerializer
+    parser_classes = [MultiPartParser, FormParser]
+    lookup_field = "id"
 
 
     #REVISIT!!!!!!!! (ALERT FOR EXPIRING PEARLS) 50% complete
 
-    def get_context_data(self, **kwargs): 
-        current_date = datetime.today()
-        post = Post
-        post.created_date = F('created_date') 
-        expiry_date = post.created_date + timedelta(days=14)
-        days_left = 14
-        counter_date = current_date - expiry_date
-        context = super(PearlDetailView, self).get_context_data(**kwargs)
-        if counter_date == expiry_date:  
-            days_left -=1
-            # day_difference = day_difference + datetime.timedelta(days=1) 
-        context['days_left'] = days_left
-        return context
+# def get_context_data(self, **kwargs): 
+#     current_date = datetime.today()
+#     post = Post
+#     post.created_date = F('created_date') 
+#     expiry_date = post.created_date + timedelta(days=14)
+#     days_left = 14
+#     counter_date = current_date - expiry_date
+#     context = super(PearlDetailView, self).get_context_data(**kwargs)
+#     if counter_date == expiry_date:  
+#         days_left -=1
+#         # day_difference = day_difference + datetime.timedelta(days=1) 
+#     context['days_left'] = days_left
+#     return context
 
 
 
@@ -175,6 +235,7 @@ def register_page(request):
 
     return render(request=request, template_name='pearl/register.html', context={'register_form': form})
 
+
 @throttle_classes([ScopedRateThrottle])
 @extend_schema(
         request=LoginSerializer,
@@ -184,27 +245,26 @@ def register_page(request):
 @permission_classes([AllowAny])
 def login_request(request):
     request.throttle_scope = 'login'
-    queryset = User.objects.all()
-    serializer = LoginSerializer
+    
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            username = serializer.validated_data.get('username')
+            password = serializer.validated_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
-                login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
-                # return redirect('home_list')
-                return Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
+                # Generate JWT token
+                from rest_framework_simplejwt.tokens import RefreshToken
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    'access': str(refresh.access_token),
+                    'refresh': str(refresh),
+                    'message': 'Login successful'
+                }, status=status.HTTP_200_OK)
             else:
-                messages.error(request, "Invalid password.")
-                return Response({'message': "User not found"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({'message': "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
-            messages.error(request, "Invalid username or password")
-            return Response({'message': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)
-    form = AuthenticationForm()
-    # return render(request=request, template_name="pearl/login.html", context={"login_form": form})
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
 def altar_call_request(request):

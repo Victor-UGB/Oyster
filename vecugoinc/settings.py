@@ -35,11 +35,13 @@ SECRET_KEY = 'django-insecure-!z%_e%m5&9ddz^et0#q%f5c*ip#eitlf$ne9r9ehec#n5wu8j2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'pearlsonline.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'pearlsonline.herokuapp.com', 'localhost']
 
 # Custom User Model
 AUTH_USER_MODEL = 'Pearl.User'
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024
+FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024
 
 # Application definition
 
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
@@ -65,11 +68,23 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+# Allow credentials (cookies, Authorization headers) from the frontend origin
+CORS_ALLOW_CREDENTIALS = True
+
+# Trust the frontend origin for CSRF (needed when using session/auth cookies)
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
 ]
 
 ROOT_URLCONF = 'vecugoinc.urls'
@@ -195,6 +210,7 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
+    'COMPONENT_SPLIT_REQUEST': True,
     'TITLE': 'My API',
     'DESCRIPTION': 'API_documentation',
     'VERSION': '1.0.0',

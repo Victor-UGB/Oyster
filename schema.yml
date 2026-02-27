@@ -1,7 +1,8 @@
 openapi: 3.0.3
 info:
-  title: ''
-  version: 0.0.0
+  title: My API
+  version: 1.0.0
+  description: API_documentation
 paths:
   /api/schema/:
     get:
@@ -124,6 +125,7 @@ paths:
       - api
       security:
       - jwtAuth: []
+      - BearerAuth: []
       - {}
       responses:
         '200':
@@ -145,86 +147,508 @@ paths:
                 type: object
                 additionalProperties: {}
           description: ''
-  /pearl/users/:
-    get:
-      operationId: pearl_users_retrieve
+  /auth/login/:
+    post:
+      operationId: auth_login_create
       tags:
-      - pearl
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserSerializers'
-          description: ''
-    put:
-      operationId: pearl_users_update
-      tags:
-      - pearl
+      - auth
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserSerializers'
+              $ref: '#/components/schemas/LoginRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/UserSerializers'
+              $ref: '#/components/schemas/LoginRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UserSerializers'
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
       security:
       - jwtAuth: []
+      - BearerAuth: []
+      - {}
       responses:
         '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserSerializers'
-          description: ''
-    patch:
-      operationId: pearl_users_partial_update
-      tags:
-      - pearl
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedUserSerializers'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedUserSerializers'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedUserSerializers'
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserSerializers'
-          description: ''
-    delete:
-      operationId: pearl_users_destroy
-      tags:
-      - pearl
-      security:
-      - jwtAuth: []
-      responses:
-        '204':
           description: No response body
+  /auth/register/:
+    post:
+      operationId: auth_register_create
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegisterUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RegisterUserRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /auth/token/:
+    post:
+      operationId: auth_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+        required: true
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /auth/token/refresh/:
+    post:
+      operationId: auth_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /folders/:
+    get:
+      operationId: folders_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - folders
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFolderList'
+          description: ''
+    post:
+      operationId: folders_create
+      tags:
+      - folders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FolderRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FolderRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+          description: ''
+  /password_reset/:
+    post:
+      operationId: password_reset_create
+      tags:
+      - password_reset
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordResetRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordResetRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: No response body
+  /pearl/{id}/:
+    get:
+      operationId: pearl_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: UUID of the user
+        required: true
+      tags:
+      - pearl
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: No response body
+    put:
+      operationId: pearl_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: UUID of the user
+        required: true
+      tags:
+      - pearl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PostRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PostRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: No response body
+    patch:
+      operationId: pearl_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: UUID of the user
+        required: true
+      tags:
+      - pearl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPostRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPostRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPostRequest'
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: No response body
+    delete:
+      operationId: pearl_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: UUID of the user
+        required: true
+      tags:
+      - pearl
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          description: No response body
+  /pearl/create/:
+    post:
+      operationId: pearl_create_create
+      tags:
+      - pearl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PostRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PostRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: ''
+  /pearl/list/:
+    get:
+      operationId: pearl_list_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - pearl
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPostList'
+          description: ''
+  /pearl/update_context/{id}/:
+    patch:
+      operationId: pearl_update_context_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: UUID of the pearl
+        required: true
+      tags:
+      - pearl
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedContentContextRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedContentContextRequest'
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentContext'
+          description: ''
+  /tags/:
+    get:
+      operationId: tags_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - tags
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTagListList'
+          description: ''
+    post:
+      operationId: tags_create
+      tags:
+      - tags
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagListRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TagListRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TagListRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagList'
+          description: ''
+  /users/:
+    get:
+      operationId: users_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserSerializersList'
+          description: ''
+    post:
+      operationId: users_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSerializersRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserSerializersRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserSerializersRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - BearerAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSerializers'
+          description: ''
 components:
   schemas:
-    PatchedUserSerializers:
+    CategoryEnum:
+      enum:
+      - auto
+      - user
+      type: string
+      description: |-
+        * `auto` - Auto-generated
+        * `user` - User-created
+    ContentContext:
+      type: object
+      properties:
+        pearl_image:
+          type: string
+          format: uri
+          nullable: true
+        pearl_audio:
+          type: string
+          format: uri
+          nullable: true
+        pearl_video:
+          type: string
+          format: uri
+          nullable: true
+    ContentTypeEnum:
+      enum:
+      - article
+      - video
+      - image
+      - note
+      - audio
+      - link
+      - document
+      type: string
+      description: |-
+        * `article` - Article
+        * `video` - Video
+        * `image` - Image
+        * `note` - Note
+        * `audio` - Audio
+        * `link` - Link
+        * `document` - Document
+    Folder:
       type: object
       properties:
         id:
           type: string
           format: uuid
           readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          nullable: true
+        is_auto_generated:
+          type: boolean
         created_at:
           type: string
           format: date-time
@@ -232,16 +656,470 @@ components:
           type: string
           format: date-time
           readOnly: true
-        groups:
+        user:
+          type: string
+          format: uuid
+        parent:
+          type: string
+          format: uuid
+          nullable: true
+      required:
+      - id
+      - name
+      - parent
+      - updated_at
+      - user
+    FolderRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          nullable: true
+        is_auto_generated:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        user:
+          type: string
+          format: uuid
+        parent:
+          type: string
+          format: uuid
+          nullable: true
+      required:
+      - name
+      - parent
+      - user
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          minLength: 1
+          maxLength: 128
+      required:
+      - password
+      - username
+    PaginatedFolderList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
           type: array
           items:
-            type: integer
-          description: The groups this user belongs to.
-        user_permissions:
+            $ref: '#/components/schemas/Folder'
+    PaginatedPostList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
           type: array
           items:
-            type: integer
-          description: Specific permissions for this user.
+            $ref: '#/components/schemas/Post'
+    PaginatedTagListList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagList'
+    PaginatedUserSerializersList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSerializers'
+    PasswordResetRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+      required:
+      - username
+    PatchedContentContextRequest:
+      type: object
+      properties:
+        pearl_image:
+          type: string
+          format: binary
+          nullable: true
+        pearl_audio:
+          type: string
+          format: binary
+          nullable: true
+        pearl_video:
+          type: string
+          format: binary
+          nullable: true
+    PatchedPostRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        content:
+          type: string
+          nullable: true
+        content_type:
+          $ref: '#/components/schemas/ContentTypeEnum'
+        url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        metadata: {}
+        is_public:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        pearl_category:
+          type: string
+          nullable: true
+          maxLength: 200
+        pearl_image:
+          type: string
+          format: binary
+          nullable: true
+        pearl_audio:
+          type: string
+          format: binary
+          nullable: true
+        pearl_video:
+          type: string
+          format: binary
+          nullable: true
+        pearl_scripture:
+          type: string
+          nullable: true
+          maxLength: 200
+        pearl_summary:
+          type: string
+          nullable: true
+          maxLength: 200
+        user:
+          type: string
+          format: uuid
+        folder:
+          type: string
+          format: uuid
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        content:
+          type: string
+          nullable: true
+        content_type:
+          $ref: '#/components/schemas/ContentTypeEnum'
+        url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        metadata: {}
+        is_public:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        pearl_category:
+          type: string
+          nullable: true
+          maxLength: 200
+        pearl_image:
+          type: string
+          format: uri
+          nullable: true
+        pearl_audio:
+          type: string
+          format: uri
+          nullable: true
+        pearl_video:
+          type: string
+          format: uri
+          nullable: true
+        pearl_scripture:
+          type: string
+          nullable: true
+          maxLength: 200
+        pearl_summary:
+          type: string
+          nullable: true
+          maxLength: 200
+        user:
+          type: string
+          format: uuid
+        folder:
+          type: string
+          format: uuid
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+      - id
+      - title
+      - updated_at
+      - user
+    PostRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        content:
+          type: string
+          nullable: true
+        content_type:
+          $ref: '#/components/schemas/ContentTypeEnum'
+        url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        metadata: {}
+        is_public:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        pearl_category:
+          type: string
+          nullable: true
+          maxLength: 200
+        pearl_image:
+          type: string
+          format: binary
+          nullable: true
+        pearl_audio:
+          type: string
+          format: binary
+          nullable: true
+        pearl_video:
+          type: string
+          format: binary
+          nullable: true
+        pearl_scripture:
+          type: string
+          nullable: true
+          maxLength: 200
+        pearl_summary:
+          type: string
+          nullable: true
+          maxLength: 200
+        user:
+          type: string
+          format: uuid
+        folder:
+          type: string
+          format: uuid
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+      - title
+      - user
+    RegisterUserRequest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          minLength: 1
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        password:
+          type: string
+          minLength: 1
+          maxLength: 128
+      required:
+      - password
+      - username
+    TagList:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        usage_count:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+    TagListRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        usage_count:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+      required:
+      - name
+    TokenObtainPair:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - refresh
+    TokenObtainPairRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - password
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          minLength: 1
+      required:
+      - refresh
     UserSerializers:
       type: object
       properties:
@@ -266,9 +1144,41 @@ components:
           items:
             type: integer
           description: Specific permissions for this user.
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
       required:
       - id
       - updated_at
+      - username
+    UserSerializersRequest:
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        groups:
+          type: array
+          items:
+            type: integer
+          description: The groups this user belongs to.
+        user_permissions:
+          type: array
+          items:
+            type: integer
+          description: Specific permissions for this user.
+        username:
+          type: string
+          minLength: 1
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+      required:
+      - username
   securitySchemes:
     jwtAuth:
       type: http

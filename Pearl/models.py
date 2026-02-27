@@ -7,7 +7,9 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
+from django.core.validators import URLValidator, FileExtensionValidator
 import uuid
+from .validators import validate_file_size
 import time
 import datetime
 
@@ -75,7 +77,7 @@ CONTENT_TYPE_CHOICES = [
 class Tag(models.Model):
     """Tag model for categorizing pearls"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50, unique=True, blank= False)
     category = models.CharField(max_length=20, choices=[('auto', 'Auto-generated'), ('user', 'User-created')], default='user')
     usage_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(default=timezone.now)
@@ -110,10 +112,10 @@ class Post(models.Model):
     """Pearl (Post) model - the core content entity"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pearls')
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, blank=True)
     content = models.TextField(blank=True, null=True)
     content_type = models.CharField(max_length=20, choices=CONTENT_TYPE_CHOICES, default='note')
-    url = models.URLField(blank=True, null=True)
+    url = models.URLField(blank=True, null=True, validators=[URLValidator(schemes=["https"])])
     metadata = models.JSONField(default=dict, blank=True)
     tags = models.ManyToManyField(Tag, related_name='pearls', blank=True)
     folder = models.ForeignKey(Folder, on_delete=models.SET_NULL, null=True, blank=True, related_name='pearls')
@@ -123,9 +125,9 @@ class Post(models.Model):
 
     # Legacy fields for backward compatibility (will be migrated)
     pearl_category = models.CharField(max_length=200, blank=True, null=True)
-    pearl_image = models.FileField(upload_to="media/img", blank=True, null=True)
-    pearl_audio = models.FileField(upload_to="media/audio", blank=True, null=True)
-    pearl_video = models.FileField(upload_to="media/video", blank=True, null=True)
+    pearl_image = models.FileField(upload_to="media/img", blank=True, null=True, validators=[FileExtensionValidator(allowed_extensions=["png", "jpg", "jpeg"])])
+    pearl_audio = models.FileField(upload_to="media/audio", blank=True, null=True, validators=[FileExtensionValidator(allowed_extensions=["wav", "mp3"])])
+    pearl_video = models.FileField(upload_to="media/video", blank=True, null=True, validators=[FileExtensionValidator(allowed_extensions=["mp4", "mov"])])
     pearl_scripture = models.CharField(max_length=200, blank=True, null=True)
     pearl_summary = models.CharField(max_length=200, blank=True, null=True)
     # archived = models.ManyToManyField('User', related_name='archived_pearls', blank=True)  # Temporarily removed

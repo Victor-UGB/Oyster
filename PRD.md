@@ -5,6 +5,8 @@
 ### 1.1 Product Overview
 
 Oyster is a decentralized web application built on the Internet Computer Protocol (ICP) that serves as a personal and social platform for curating, organizing, and reflecting on cherished online content. Users can save "pearls" – valuable pieces of content they discover online – and the platform intelligently organizes them into folders, provides reminders, and fosters a community for sharing and discovery.
+Pearls are contents that can be analyzed and categorized or grouped to create a trail of thoughts that will may be beneficial to the user in the future. The user can put a reminder on each AI categorized group and expanded to action projects and share and find contributors amongst other use cases.
+Community sponsored pearls can be displayed on billboards around the city.
 
 ### 1.2 Product Name
 
@@ -16,7 +18,7 @@ To create a beautiful, intelligent platform that helps users stay connected to t
 
 ### 1.4 Mission
 
-Transform how people interact with and retain online content by providing an elegant, AI-powered curation system that reminds users of their "pearls" and connects them with like-minded individuals in a decentralized ecosystem.
+Transform how people interact with and retain online content by providing an elegant, AI-powered curation system that reminds users of their "pearls" and connects them with like-minded individuals in a decentralized ecosystem. Your own social media wrapped.
 
 ## 2. Objectives
 

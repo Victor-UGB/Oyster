@@ -1,1 +1,6 @@
-{}
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/pearls/page": "app/pearls/page.js",
+  "/login/page": "app/login/page.js",
+  "/pearl/[id]/page": "app/pearl/[id]/page.js"
+}

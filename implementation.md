@@ -3,6 +3,7 @@
 ## Overview
 
 This document outlines the backend development roadmap for the Oyster decentralized content curation platform. The implementation is broken down into 10 sprints, each focusing on specific features and building upon previous work. Pearls are contents that can be analyzed and categorized or grouped to create a trail of thoughts that will may be beneficial to the user in the future. The user can put a reminder on each AI categorized group and expanded to action projects and share and find contributors amongst other use cases.
+Community sponsored pearls can be displayed on billboards around the city.
 
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY5MDk3MzY2LCJpYXQiOjE3NjkwOTM3NjYsImp0aSI6IjIxMTBjMWYwMDExOTRhNDBhYWU5YTc5ZWFhY2I1YTI5IiwidXNlcl9pZCI6IjIyZjUxYTZiLTNkZTEtNDNiYy05ZDJiLWNhY2E3MmZiYjlmZSJ9.h5GkC5RN9x4Q0E0LCnCHEIlXdTZyoKgty-YvvG-r5Ug
 
