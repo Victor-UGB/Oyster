@@ -114,3 +114,14 @@ It can also happen if the client has a browser extension installed which messes 
 [01:51:38.202] Server  LOG     ✓ Compiled in 1339ms
 [01:53:43.015] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
 [01:53:56.565] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:16:20.103] Server  ERROR   TypeError: Failed to parse URL from function wrap() {
+        return fn.apply(thisArg, arguments);
+    }/pearl/list
+[02:16:20.129] Server  ERROR   ⨯ "unhandledRejection:" TypeError: Failed to parse URL from function wrap() {
+        return fn.apply(thisArg, arguments);
+    }/pearl/list
+[02:16:20.168] Server  ERROR   ⨯ "unhandledRejection: " TypeError: Failed to parse URL from function wrap() {
+        return fn.apply(thisArg, arguments);
+    }/pearl/list
+[02:16:20.705] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:16:25.043] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
