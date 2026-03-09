@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Admin/OneDrive/Desktop/ReMINDED/oyster/frontend/src/lib/providers.tsx"],"sourcesContent":["'use client'\r\n\r\nimport { QueryClient, QueryClientProvider } from '@tanstack/react-query'\r\nimport { ReactNode } from 'react'\r\n\r\nconst queryClient = new QueryClient()\r\n\r\nexport function Providers({ children }: { children: ReactNode }) {\r\n  return (\r\n    <QueryClientProvider client={queryClient}>\r\n      {children}\r\n    </QueryClientProvider>\r\n  )\r\n}\r\n"],"names":[],"mappings":";;;;;AAEA;AAAA;AAFA;;;AAKA,MAAM,cAAc,IAAI,4LAAW;AAE5B,SAAS,UAAU,EAAE,QAAQ,EAA2B;IAC7D,qBACE,8OAAC,6MAAmB;QAAC,QAAQ;kBAC1B;;;;;;AAGP"}}]
+}
