@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 /frontend/.next
+**/__pycache__/
+**/*.pyc
+db.sqlite3
+frontend/package-lock.json
 
 # testing
 /coverage
