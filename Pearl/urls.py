@@ -28,7 +28,4 @@ urlpatterns = [
     # url(r'(?P<id>\d+)/archived/$', views.archive_pearl, name='archive_pearl'),
     # url(r'archived/$', views.archive_list, name='archive_list'),
     # url(r'altar_call/$', views.altar_call_request, name='altar_call'),
-
 ]
-
-
