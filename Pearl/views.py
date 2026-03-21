@@ -61,6 +61,7 @@ class TagListView(ListCreateAPIView):
 class FolderListView(ListCreateAPIView):
     serializer_class = FolderSerializer
     queryset = Folder.objects.all()
+    permission_classes = [IsAuthenticated]
 
 
 class FolderView(RetrieveUpdateAPIView):

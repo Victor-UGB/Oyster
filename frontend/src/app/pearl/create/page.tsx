@@ -1,10 +1,13 @@
-import PearlCreateForm from "@/components/PearlCreateForm";
 
-export default function PearlCreatePage(){
+import PearlCreateForm from "@/components/PearlCreateForm";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+
+
+export default async function PearlCreatePage(){
     return (
-        <div>
+        <ProtectedRoute>
             Form
             <PearlCreateForm/>
-        </div>
+        </ProtectedRoute>
     )
 }
