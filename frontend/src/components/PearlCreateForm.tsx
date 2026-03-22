@@ -12,6 +12,7 @@ export default function PearlCreateForm() {
   const [err, setErr] = useState<string | null>(null)
   const [formData, setFormData] = useState<Pearl>({
     id: "",
+    user: "",
     title: '',
     content: '',
     content_type: '',
@@ -25,6 +26,7 @@ export default function PearlCreateForm() {
     pearl_category: '',
     pearl_summary: ''
   })
+  const userId = localStorage.getItem("user_id") as string 
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -33,9 +35,11 @@ export default function PearlCreateForm() {
     if (type === 'radio') {
       const checked = (e.target as HTMLInputElement).checked
       setFormData((prev) => ({ ...prev, [name]: checked }))
+      setFormData((prev) => ({...prev, user:userId}))
       return
     }
     setFormData((prev) => ({ ...prev, [name]: value }))
+    setFormData((prev) => ({...prev, user:userId}))
   }
 
   const createPayload = <T extends Record<string, any>> (
@@ -55,8 +59,10 @@ export default function PearlCreateForm() {
   const handlePearlCreate = async (e: React.FormEvent) => {
     e.preventDefault()
     setErr(null)
+    console.log(localStorage)
     try {
       const payload = createPayload(formData, [
+        'id',
         'content_type', 
         'url', 
         'is_public',
@@ -68,6 +74,7 @@ export default function PearlCreateForm() {
         'pearl_summary',
         'pearl_video'
       ])
+      
       await createPearl(payload as Pearl)
       router.push('/pearls')
     } catch (err: any) {

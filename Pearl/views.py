@@ -26,6 +26,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.core.mail import send_mail, BadHeaderError
+from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect, Http404, request
 # from django.contrib.auth.models import User
 from django.template.loader import render_to_string
@@ -257,10 +258,13 @@ def login_request(request):
                 # Generate JWT token
                 from rest_framework_simplejwt.tokens import RefreshToken
                 refresh = RefreshToken.for_user(user)
+                # Get the user detail / profile
+                short_profile = User.objects.filter(username = username).values('id', 'is_superuser', 'is_staff')
                 return Response({
                     'access': str(refresh.access_token),
                     'refresh': str(refresh),
-                    'message': 'Login successful'
+                    'message': 'Login successful',
+                    'user': short_profile
                 }, status=status.HTTP_200_OK)
             else:
                 return Response({'message': "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)

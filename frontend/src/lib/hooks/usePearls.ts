@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react'
 
 export interface Pearl {
   id: string
+  user: string
   title: string
   content: string | null
   content_type?: string

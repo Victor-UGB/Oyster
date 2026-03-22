@@ -1,9 +1,11 @@
 import { useState, useCallback, useEffect } from 'react'
 import api, { setAuthToken } from '../api'
+import { redirect } from 'next/dist/server/api-utils'
 
 export interface AuthResponse {
   access: string
   refresh?: string
+  user? : string
 }
 
 export function useAuth() {
@@ -34,10 +36,13 @@ export function useAuth() {
           username,
           password,
         })
-        const { access } = data
+        const { access, user } = data
+      //  console.log(user[0].id)
         localStorage.setItem('auth_token', access)
+        localStorage.setItem('user_id', user[0].id)
         setAuthToken(access)
         setToken(access)
+        
         return data
       } catch (err: any) {
         const message = err.response?.data?.detail || err.message || 'Login failed'
@@ -84,6 +89,7 @@ export function useAuth() {
     localStorage.removeItem('auth_token')
     setAuthToken(null)
     setToken(null)
+    
   }, [])
 
   return {

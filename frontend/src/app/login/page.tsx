@@ -24,6 +24,7 @@ export default function LoginPage() {
     try {
       await login(username, password)
       router.push('/pearls')
+      console.log(localStorage)
     } catch (err: any) {
       setError(authError || 'Login failed. Please try again.')
     }
