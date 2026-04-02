@@ -21,7 +21,7 @@ export default function NavBar(){
             <div>
                 Menu
             </div>
-            <Link href={"/pearl/create"}>
+            <Link href={"/pearl/create/"}>
             <div>
                 Add pearl
             </div>

@@ -2,6 +2,7 @@
 
 import { usePearls } from '@/lib/hooks/usePearls'
 import Link from 'next/link'
+import IntelCard from './AiComp/LLMComp/IntelCard'
 
 export default function PearlsList() {
   const { data: pearls, isLoading, error } = usePearls()
@@ -36,6 +37,7 @@ export default function PearlsList() {
         <h1 className="text-4xl font-bold text-gray-800 mb-8">Your Pearls</h1>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <IntelCard/>
           {pearls.map((pearl) => (
             <Link
               key={pearl.id}
