@@ -1,9 +1,11 @@
 'use client'
 
+import { usePearlAnalyzer } from "@/lib/hooks/useOysterAi"
 import React, { useState } from "react"
 
 export function UrlAiInput(){
-    const [validURL, setValidURL] = useState<boolean>(false)
+    const [validURL, setValidURL] = useState<URL | undefined>()
+    const [submittedURL, setsubmittedURL] = useState<URL | undefined>()
     const [value, setValue] = useState("")
     const [error, setError] = useState<string | null | undefined>("")
     const [touched, setTouched]  =  useState(false)
@@ -15,12 +17,16 @@ export function UrlAiInput(){
         "tiktok.com",
         "pinterest.com"
     ]
+    const urlAnalysis = usePearlAnalyzer(submittedURL)
 
     const validateInput = (input:string) => {
         
         if (!input) return ""
         try {
-            const url = new URL(input)
+            const normalized = /^https?:\/\//i.test(input) ? input : `https://${input}`
+            const url = new URL(normalized)
+
+            console.log("running check")
             if (!["http:", "https:"].includes(url.protocol)){
                 return "Invalid protocol"
             }
@@ -31,9 +37,11 @@ export function UrlAiInput(){
             console.log(`This is the hostname ${hostname}`)
             console.log(isAllowed)
             if (!isAllowed){
-                return "Only social media links can added"
+                return "Only social media links can be added"
             }
-            return ""; // valid
+            setValidURL(url)
+            console.log(validURL)
+            return "Valid Url"; // valid
         }catch (err){
             return "Invalid URL format"
         }
@@ -43,10 +51,20 @@ export function UrlAiInput(){
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target
         setTouched(true)
-
+        // console.log(value)
         const validationError = validateInput(value);
         setError(validationError)
+        if (validationError !== "Valid Url") {
+            setValidURL(undefined)
+            setsubmittedURL(undefined)
+        }
 
+    }
+
+    const analyzeUrl = (url:URL | undefined) =>{
+        console.log("analyzing url...")
+        if(!validURL) return
+        setsubmittedURL(validURL)
     }
     return(
         <div className="w-full flex relative bottom-4 self-end">
@@ -68,8 +86,18 @@ export function UrlAiInput(){
                 />
             </div>
             <div className="">
-                <button disabled>Send</button>
+                <button
+                onClick={() => analyzeUrl(validURL)}
+                disabled={error === "Valid Url" ? false : true}
+                className="disabled:bg-red-100 bg-blue-200"
+                >
+                    Send
+                </button>
             </div>
+            {submittedURL?
+                <div>{urlAnalysis}</div>
+                :""
+            }
             </div>
         </div>
     )
