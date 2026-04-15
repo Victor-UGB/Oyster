@@ -39,7 +39,7 @@ from django.utils.encoding import force_bytes
 from django.urls import reverse
 from datetime import date, datetime, time, timedelta,timezone
 import os
-from vecugoinc import settings
+from config import settings
 
 
 # Create your views here.
@@ -105,6 +105,21 @@ class PearlCreateView(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
     
+
+# Transforming a url to a pearl
+# Recieve url
+# Destructure metadata
+# Create pearl with Ai or manaually. 
+# Manually:
+#   url is saved, title, descrition and other 
+#   necessary fields is entered 
+# Automatically GAi:
+#   LLM analysis of link to return title and other necessary information
+# Save if valid
+
+
+
+
 
 class PearlListView(ListAPIView):
     permission_classes = [IsAuthenticated]
@@ -331,3 +346,4 @@ def password_reset_request_page(request):
     password_reset_form = PasswordResetForm()
     return render(request=request, template_name="password/password_reset.html",
             context={"password_reset_form": password_reset_form})
+

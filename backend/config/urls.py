@@ -25,7 +25,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
-    path('frontend/', include('frontend.urls')),
+    # path('frontend/', include('frontend.urls')),
     path('', include('Pearl.urls')),
     path('admin/', admin.site.urls),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password/password_reset_done.html'), name='password_reset_done'),
