@@ -2,6 +2,7 @@
 
 import { usePearlAnalyzer } from "@/lib/hooks/useOysterAi"
 import React, { useState } from "react"
+import AiPearlCreateForm from "./aiCreatePearlFromURLmodal"
 
 export function UrlAiInput(){
     const [validURL, setValidURL] = useState<URL | undefined>()
@@ -9,6 +10,8 @@ export function UrlAiInput(){
     const [value, setValue] = useState("")
     const [error, setError] = useState<string | null | undefined>("")
     const [touched, setTouched]  =  useState(false)
+    const [aiCreatePearlForm, setAiCreatePearlForm] = useState(false)
+    const [analysis, setAnalysis] = useState("")
     const ALLOWED_DOMAINS = [
         "youtube.com",
         "instagram.com",
@@ -17,7 +20,18 @@ export function UrlAiInput(){
         "tiktok.com",
         "pinterest.com"
     ]
-    const urlAnalysis = usePearlAnalyzer(submittedURL)
+    const analysisResult = usePearlAnalyzer(submittedURL)
+    const urlAnalysis = async () => {
+        try{
+        
+        setAnalysis(i => i = analysisResult)
+        setAiCreatePearlForm(true)
+        }
+        catch(err){
+            setAnalysis("Error in analysing url")
+        }
+
+    }
 
     const validateInput = (input:string) => {
         
@@ -65,6 +79,7 @@ export function UrlAiInput(){
         console.log("analyzing url...")
         if(!validURL) return
         setsubmittedURL(validURL)
+        urlAnalysis()
     }
     return(
         <div className="w-full flex relative bottom-4 self-end">
@@ -91,14 +106,19 @@ export function UrlAiInput(){
                 disabled={error === "Valid Url" ? false : true}
                 className="disabled:bg-red-100 bg-blue-200"
                 >
-                    Send
+                    Save
                 </button>
             </div>
             {submittedURL?
-                <div>{urlAnalysis}</div>
+                <div>{analysis}</div>
                 :""
             }
             </div>
+            {aiCreatePearlForm? 
+            <div className="absolute">
+                <AiPearlCreateForm/>
+            </div>: ""
+            }
         </div>
     )
 }
