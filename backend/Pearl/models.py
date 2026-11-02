@@ -3,6 +3,7 @@ from pyexpat import model
 from time import time
 from typing import Type
 from unicodedata import category
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
@@ -15,10 +16,70 @@ import datetime
 
 # Create your models here.
 
+
+
+class PearlSourceType(models.TextChoices):
+    URL= "URL", "URL"
+    TEXT= "TEXT", "Text"
+    IMAGE= "IMAGE" "Image"
+    VIDEO= "VIDEO", "Video"
+    DOCUMENT= "DOCUMENT", "Document"
+    EMAIL= "EMAIL", "Email"
+
+class PearlStatus(models.TextChoices):
+    CAPTURED = "CAPTURED", "Captured"
+    FAILED = "FAILED", "Failed"
+
+class Pearl(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="pels"
+    )
+    source_type = models.CharField(
+        max_length=20,
+        choices= PearlSourceType.choices
+    )
+    source_platform = models.CharField(
+        max_length=40,
+        blank=True
+    )
+    original_value= models.TextField()
+    status= models.CharField(
+        max_length=20,
+        choices=PearlStatus.choices,
+        default=PearlStatus.CAPTURED,
+    )
+    captured_at = models.DateTimeField(
+        auto_now_add=True
+    )
+    class Meta:
+        ordering = ["-captured_at"]
+    def __str__(self):
+        return f"{self.source_type} Pearl ({self.id})"
+
+class MetadataSnapshot(models.Model):
+    pearl = models.ForeignKey(Pearl, on_delete=models.CASCADE, related_name="metadata_snapshots")
+    metadata = models.JSONField(default=dict)
+    extracted_at = models.DateTimeField(auto_now_add=True)
+    extraction_version = models.CharField(max_length=40, default="V1")
+
+    class Meta:
+        ordering = ["-extracted_at"]
+
+    def __str__(self):
+        return f"Snapshot for {self.pearl.id}"
+
+                                                                                            
 class User(AbstractUser):
     """Custom User model extending Django's AbstractUser"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     # Override groups and user_permissions to avoid reverse accessor conflicts
@@ -114,7 +175,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pearls')
     title = models.CharField(max_length=200, blank=True)
     content = models.TextField(blank=True, null=True)
-    content_type = models.CharField(max_length=20, choices=CONTENT_TYPE_CHOICES, default='note')
+    content_type = models.CharField(max_length=20, blank=True, choices=CONTENT_TYPE_CHOICES, default='note')
     url = models.URLField(blank=True, null=True, validators=[URLValidator(schemes=["https"])])
     metadata = models.JSONField(default=dict, blank=True)
     tags = models.ManyToManyField(Tag, related_name='pearls', blank=True)

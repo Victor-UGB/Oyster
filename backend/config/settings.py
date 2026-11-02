@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'Pearl.apps.PearlConfig',
     'Notifications',
+    'users',
+    'context',
     'crispy_forms',
     'drf_spectacular',
     'drf_spectacular_sidecar',

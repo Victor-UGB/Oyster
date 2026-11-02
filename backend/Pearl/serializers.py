@@ -59,14 +59,21 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = "__all__"
+        read_only_fields = ("created_at", "updated_at")
         extra_kwargs = {
+            "content_type": {
+                "required": False
+            },
             "pearl_image": {
+                "required": False,
                 "validators": [validate_file_size(5 * 1024 * 1024, "Image")]
             },
             "pearl_audio": {
+                "required": False,
                 "validators": [validate_file_size(10 * 1024 * 1024, "Audio")]
             },
             "pearl_video": {
+                "required": False,
                 "validators": [validate_file_size(40 * 1024 * 1024, "Video")]
             },
         }

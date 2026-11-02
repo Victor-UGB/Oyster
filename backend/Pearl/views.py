@@ -39,7 +39,7 @@ from django.utils.encoding import force_bytes
 from django.urls import reverse
 from datetime import date, datetime, time, timedelta,timezone
 import os
-from config import settings
+from  config import settings
 
 
 # Create your views here.

@@ -1,0 +1,2 @@
+class PearlCaptured:
+    pass
